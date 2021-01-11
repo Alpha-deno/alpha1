@@ -1,0 +1,725 @@
+<!DOCTYPE html> {% load static%}
+<html lang="zxx">
+
+<head>
+    <title>Alpha</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Alpha">
+    <meta name="keywords" content="the future">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon .heic-->
+    <link href="{% static 'hm/img/favicon2.png' %}" rel="shortcut icon" />
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
+
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'hm/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/flaticon.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/slicknav.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/jquery-ui.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/animate.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/style.css' %}" />
+
+
+    <!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .avatar {
+            vertical-align: middle;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show"> <strong>Success!</strong> {{ message}} <button type="button" class="close" data-dismiss="alert">&times;</button></div>
+    {% endfor %} {% endif %}
+    <!-- Header section -->
+    <header class="header-section">
+        <div class="header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2 text-center text-lg-left">
+                        <!-- logo -->
+                        <a href="/" class="site-logo">
+                            <img src="{% static 'hm/img/logo.png' %}" alt="">
+                        </a>
+                    </div>
+                    <div class="col-xl-6 col-lg-5">
+                        <form class="header-search-form" action="{% url 'search' %}" method="GET">
+                            <input type="text" placeholder="Search on Alpha ...." name="search">
+                            <button><i class="flaticon-search"></i></button>
+                        </form>
+                    </div>
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="user-panel">
+                            <div class="up-item">
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'profile' %}"><img class="avatar" src="{{user.profile.profile_photo.url}}"></a>
+                                <h3><a href="{% url 'profile' %}">{{user.username}}</a></h3>
+                                {% else%}
+                                <i class="flaticon-profile"></i>
+                                <button class="site-btn"><a href="{% url 'login' %}" >Sign In</a></button> or <button class="site-btn"><a href="{% url 'signup'%}">Create Account</a></button> {% endif%}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="main-navbar">
+            <div class="container">
+                <!-- menu -->
+                <ul class="main-menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#food">Foods and Drinks
+						<span class="new">New</span>
+                    </a></li>
+                    <li><a href="#new">New</a></li>
+                    <li><a href="#all">Don't Know what I want</a></li>
+                    {% if user.is_authenticated %} {% if user.is_business %}
+                    <li><a href="#">Add Items</a>
+                        <ul class="sub-menu">
+                            <li><a href="{% url 'product-create' %}">Add Product</a></li>
+                            <li><a href="{% url 'service-create' %}">Add service</a></li>
+                            <li><a href="{% url 'restaurant-create' %}">Add food and drinks</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="{% url 'update-set-business' user.username %}">update What my Business does</a></li>
+                    {% endif%} {% endif%} {% if user.is_authenticated %}
+                    <li><a href="{% url 'create-blog' %}">Create Blog</a></li>
+                    {% endif%}
+
+                    <li><a href="{% url 'blog' %}">Blog</a></li>
+                    <li><a href="{% url 'contact' %}">contact</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% if user.is_business %}
+                    <li><a href="#">Business Home Page</a>
+                        <ul class="sub-menu">
+                            <li><a href="{% url 'sb-product' user.username %}">Product</a></li>
+                            <li><a href="{% url 'sb-service' user.username %}">Service</a></li>
+                            <li><a href="{% url 'sb-food' user.username %}">Food and Drinks</a></li>
+
+                        </ul>
+                    </li>
+                    {% endif%}{% endif%}
+                </ul>
+
+            </div>
+        </nav>
+    </header>
+    <!-- Header section end -->
+
+
+
+    <!-- Hero section -->
+    <section class="hero-section">
+        <div class="hero-slider owl-carousel">
+            <div class="hs-item set-bg" data-setbg="{% static 'hm/img/bg.jpg' %}">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-xl-6 col-lg-7 text-white">
+                            {% if user.is_authenticated %}
+                            <span>Tell us </span>
+                            <h2>How you feel</h2>
+
+                            <p> If You feel un satisfied just contact us and we will be more than willing to help
+                            </p>
+                            <a href="{% url 'contact'%}" class="site-btn sb-line">Contact Us</a> {% else%}
+                            <span>Take Your Business</span>
+                            <h2>To the next level</h2>
+
+                            <p> Own your own url at an affordable price
+                            </p>
+                            <a href="#all" class="site-btn sb-line">DISCOVER</a>
+                            <a href="{% url 'signup'%}" class="site-btn sb-white">Register Here</a> {% endif%}
+                        </div>
+
+                    </div>
+
+                    <div class="offer-card text-white">
+                        <span>From</span>
+                        <h4>ALPHA</h4>
+                        <p>The Future</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="hs-item set-bg" data-setbg="{% static 'hm/img/bg-2.jpg' %}">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-7 text-white">
+                            <span>New Arrivals</span>
+                            <h2>New Products</h2>
+                            <p>
+                            </p>
+                            <a href="#all" class="site-btn sb-line">DISCOVER</a>
+
+                        </div>
+                    </div>
+                    <div class="offer-card text-white">
+                        <span>from</span>
+                        <h4>ALPHA</h4>
+                        <p>The Future</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="container">
+            <div class="slide-num-holder" id="snh-1"></div>
+        </div>
+    </section>
+    <!-- Hero section end -->
+
+
+
+    <!-- Features section -->
+    <section class="features-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4 p-0 feature">
+                    <div class="feature-inner">
+                        <div class="feature-icon">
+                            <img src="{% static 'hm/img/icons/1.png' %}" alt="#">
+                        </div>
+                        <h2>Fast Secure Payments</h2>
+                    </div>
+                </div>
+                <div class="col-md-4 p-0 feature">
+                    <div class="feature-inner">
+                        <div class="feature-icon">
+                            <img src="{% static 'hm/img/icons/2.png' %}" alt="#">
+                        </div>
+                        <h2>Premium Products</h2>
+                    </div>
+                </div>
+                <div class="col-md-4 p-0 feature">
+                    <div class="feature-inner">
+                        <div class="feature-icon">
+                            <img src="{% static 'hm/img/icons/3.png' %}" alt="#">
+                        </div>
+                        <h2>Fast Delivery </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Features section end -->
+
+
+    <!-- letest product section -->
+    <section class="top-letest-product-section">
+        <div class="container" id="products">
+
+            <div class="section-title">
+                <h2>Awesome Products Around</h2>
+            </div>
+
+            <div class="product-slider owl-carousel">
+                {% for product in products %}
+                <div class="product-item">
+                    <div class="pi-pic">
+                        {% if product.new == True %}
+                        <div class="tag-new">New</div>
+                        {% endif %} {% if product.offer == True %}
+                        <div class="tag-sale">In Offer</div>
+                        {% endif %}
+                        <a href="{% url 'sb-product' product.author.username %}"><img src="{{product.product_image.url}}" alt=""></a>
+                        <div class="pi-links">
+                            <a href="{% url 'order-product' product.author.username %}" class="add-card"><i class="flaticon-bag"></i><span>PLACE ORDER</span></a>
+                            <a href="{% url 'sb-product' product.author.username %}" class="add-card"><i class="flaticon-heart"></i></a>
+                        </div>
+                    </div>
+                    <div class="pi-text">
+                        {% if product.offer == True %}
+                        <h6>Was <strike>Ksh{{product.price}}</strike> Now Ksh{{product.offer_price}}</h6>
+                        {% else %}
+                        <h6>Ksh{{product.price}}</h6>
+                        {% endif %}
+                        <p>{{product.product_name}}</p>
+                    </div>
+                </div>
+                {% endfor%}
+
+            </div>
+        </div>
+    </section>
+    <section class="top-letest-product-section">
+        <div class="container" id="services">
+
+            <div class="section-title">
+                <h2>Awesome Services Around</h2>
+            </div>
+
+            <div class="product-slider owl-carousel">
+
+
+
+                {% for service in services %}
+                <div class="product-item">
+                    <div class="pi-pic">
+                        {% if service.new == True %}
+                        <div class="tag-new">New</div>
+                        {% endif %} {% if service.offer == True %}
+                        <div class="tag-sale">In Offer</div>
+                        {% endif %}
+                        <a href="{% url 'sb-service' service.author.username %}"><img src="{{service.service_image.url}}" alt=""></a>
+                        <div class="pi-links">
+                            <a href="{% url 'book-service' service.author.username %}" class="add-card"><i class="flaticon-bag"></i><span>BOOK</span></a>
+                            <a href="{% url 'sb-service' service.author.username %}" class="add-card"><i class="flaticon-heart"></i></a>
+                        </div>
+                    </div>
+                    <div class="pi-text">
+                        {% if service.offer == True %}
+                        <h6>Was <strike>Ksh{{service.price}}</strike> Now Ksh{{service.offer_price}}</h6>
+                        {% else %}
+                        <h6>Ksh{{service.price}}</h6>
+                        {% endif %}
+
+                        <p>{{service.service_name}}</p>
+                    </div>
+                </div>
+                {% endfor%}
+            </div>
+        </div>
+    </section>
+    <section class="top-letest-product-section">
+        <div class="container" id="foods">
+
+            <div class="section-title">
+                <h2>Awesome Foods Around</h2>
+            </div>
+
+            <div class="product-slider owl-carousel">
+
+                {% for restaurant in restaurants %}
+                <div class="product-item">
+                    <div class="pi-pic">
+                        {% if restaurant.offer == True %}
+                        <div class="tag-sale">In Offer</div>
+                        {% endif %}
+                        <a href="{% url 'sb-food' restaurant.author.username %}"><img src="{{restaurant.food_image.url}}" alt=""></a>
+                        <div class="pi-links">
+                            <a href="{% url 'order-food' restaurant.author.username %}" class="add-card"><i class="flaticon-bag"></i><span>PLACE ORDER</span></a>
+                            <a href="{% url 'sb-food' restaurant.author.username %}" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                        </div>
+                    </div>
+                    <div class="pi-text">
+                        {% if restaurant.offer == True %}
+                        <h6>Was <strike>Ksh{{restaurant.price}}</strike> Now Ksh{{restaurant.offerprice}} </h6>
+                        {% else%}
+                        <h6>Ksh{{restaurant.price}}</h6>
+                        {% endif%}
+                        <p>{{restaurant.food_name}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+            </div>
+        </div>
+    </section>
+    <!-- letest product section end -->
+    <section class="top-letest-product-section">
+        <div class="container" id="all">
+
+            <div class="section-title">
+                <h2>All</h2>
+            </div>
+
+            <div class="product-slider owl-carousel">
+                {% for service in services %} {% if service.new == True %}
+                <div class="tag-new">New</div>
+                {% endif %}{% if service.offer == True %}
+                <div class="tag-sale">In Offer</div>
+                {% endif %}
+                <div class="product-item">
+                    <div class="pi-pic">
+                        <a href="{% url 'sb-service' service.author.username %}"><img src="{{service.service_image.url}}" alt=""></a>
+                        <div class="pi-links">
+                            <a href="{% url 'book-service' service.author.username %}" class="add-card"><i class="flaticon-bag"></i><span>BOOK</span></a>
+                            <a href="{% url 'sb-service' service.author.username %}" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                        </div>
+                    </div>
+                    <div class="pi-text">
+                        {% if service.offer == True %}
+                        <h6>Was <strike>Ksh{{service.price}}</strike> Now Ksh{{service.offer_price}}</h6>
+                        {% else %}
+                        <h6>Ksh{{service.price}}</h6>
+                        {% endif %}
+                        <p>{{service.service_name}}</p>
+                    </div>
+                </div>
+                {% endfor%} {% for product in products %}
+                <div class="product-item">
+                    <div class="pi-pic">
+                        {% if product.new == True %}
+                        <div class="tag-new">New</div>
+                        {% endif %} {% if product.offer == True %}
+                        <div class="tag-sale">In Offer</div>
+                        {% endif %}
+                        <a href="{% url 'sb-product' product.author.username %}"><img src="{{product.product_image.url}}" alt=""></a>
+                        <div class="pi-links">
+                            <a href="{% url 'order-product' product.author.username %}" class="add-card"><i class="flaticon-bag"></i><span>PLACE ORDER</span></a>
+                            <a href="{% url 'sb-product' product.author.username %}" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                        </div>
+                    </div>
+                    <div class="pi-text">
+                        {% if product.offer == True %}
+                        <h6>Was <strike>Ksh{{product.price}}</strike> Now Ksh{{product.offer_price}}</h6>
+                        {% else %}
+                        <h6>Ksh{{product.price}}</h6>
+                        {% endif %}
+                        <p>{{product.product_name}}</p>
+                    </div>
+                </div>
+                {% endfor%} {% for restaurant in restaurants %}
+                <div class="product-item">
+                    <div class="pi-pic">
+                        {% if restaurant.offer == True %}
+                        <div class="tag-sale">In Offer</div>
+                        {% endif %}
+                        <a href="{% url 'sb-food' restaurant.author.username %}"><img src="{{restaurant.food_image.url}}" alt=""></a>
+                        <div class="pi-links">
+                            <a href="{% url 'order-food' restaurant.author.username %}" class="add-card"><i class="flaticon-bag"></i><span>PLACE ORDER</span></a>
+                            <a href="{% url 'sb-food' restaurant.author.username %}" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                        </div>
+                    </div>
+                    <div class="pi-text">
+                        {% if restaurant.offer == True %}
+                        <h6>Was <strike>Ksh{{restaurant.price}}</strike> Now Ksh{{restaurant.offerprice}} </h6>
+                        {% else %}
+                        <h6>Ksh{{restaurant.price}}</h6>
+                        {% endif %}
+                        <p>{{restaurant.food_name}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Product filter section -->
+    <section class="product-filter-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>-CHECK OUT THESE-</h2>
+            </div>
+            <ul class="product-filter-menu">
+                <li><a href="#new_products">NEW PRODUCTS</a></li>
+                <li><a href="#new_services">NEW SERVICES</a></li>
+                <li><a href="#offers">OFFERS</a></li>
+                <!--
+                <li><a href="#">JEANS</a></li>
+                <li><a href="#">DRESSES</a></li>
+                <li><a href="#">COATS</a></li>
+                <li><a href="#">JUMPERS</a></li>
+                <li><a href="#">LEGGINGS</a></li>
+                <div class="text-center pt-5">
+                <button class="site-btn sb-line sb-dark">LOAD MORE</button>
+            </div>
+                -->
+            </ul>
+
+
+        </div>
+    </section>
+
+    <section class="top-letest-product-section">
+        <div class="container" id="new_products">
+            <div class="section-title">
+                <h2>LATEST PRODUCTS</h2>
+            </div>
+            <div class="product-slider owl-carousel">
+
+                <!--start-->
+                {% for product in products %} {% if product.new == True %}
+                <div class="product-item">
+                    <div class="pi-pic">
+                        <a href="{% url 'sb-product' product.author.username %}"><img src="{{product.product_image.url}}" alt=""></a>
+                        <div class="pi-links">
+                            <a href="{% url 'order-product' product.author.username %}" class="add-card"><i class="flaticon-bag"></i><span>PLACE ORDER</span></a>
+                            <a href="{% url 'sb-product' product.author.username %}" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                        </div>
+                    </div>
+                    <div class="pi-text">
+                        {% if product.offer == True %}
+                        <h6>Was <strike>Ksh{{product.price}}</strike> Now Ksh{{product.offer_price}}</h6>
+                        {% else %}
+                        <h6>Ksh{{product.price}}</h6>
+                        {% endif %}
+                        <p>{{product.product_name}}</p>
+                    </div>
+                </div>
+                {% endif %} {% endfor %}
+                <!--end-->
+
+            </div>
+        </div>
+    </section>
+
+    <section class="top-letest-product-section">
+        <div class="container" id="new_services">
+            <div class="section-title">
+                <h2>LATEST SERVICES AROUND</h2>
+            </div>
+            <div class="product-slider owl-carousel">
+
+                <!--start-->
+                {% for service in services%}
+                <div class="product-item">
+                    <div class="pi-pic">
+                        <a href="{% url 'sb-service' service.author.username %}"><img src="{{service.service_image.url}}" alt=""></a>
+                        <div class="pi-links">
+                            <a href="{% url 'book-service' service.author.username %}" class="add-card"><i class="flaticon-bag"></i><span>BOOK</span></a>
+                            <a href="{% url 'sb-service' service.author.username %}" class="add-card"><i class="flaticon-heart"></i></a>
+                        </div>
+                    </div>
+                    <div class="pi-text">
+                        {% if service.offer == True%}
+                        <h6>Was<strike> Ksh{{service.price}}</strike> Now Ksh{{service.offer_price}}</h6>
+                        {% else%}
+                        <h6>Ksh{{service.price}}</h6>
+                        {% endif%}
+                        <p>{{service.service_name}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                <!--end-->
+
+            </div>
+        </div>
+    </section>
+    <!-- Product filter section end -->
+    <section class="top-letest-product-section">
+        <div class="container" id="offers">
+
+            <div class="section-title">
+                <h2>OFFERS</h2>
+            </div>
+
+            <div class="product-slider owl-carousel">
+                {% for service in services %}{% if service.offer == True %} {% if service.offer == True %}
+                <div class="tag-sale">In Offer</div>
+                {% endif %}
+                <div class="product-item">
+                    <div class="pi-pic">
+                        <a href="{% url 'sb-service' service.author.username %}"><img src="{{service.service_image.url}}" alt=""></a>
+                        <div class="pi-links">
+                            <a href="{% url 'book-service' service.author.username %}" class="add-card"><i class="flaticon-bag"></i><span>BOOK</span></a>
+                            <a href="{% url 'sb-service' service.author.username %}" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                        </div>
+                    </div>
+                    <div class="pi-text">
+                        {% if service.offer == True%}
+                        <h6>Was<strike> Ksh{{service.price}}</strike> Now Ksh{{service.offer_price}}</h6>
+                        {% else%}
+                        <h6>Ksh{{service.price}}</h6>
+                        {% endif%}
+                        <p>{{service.service_name}}</p>
+                    </div>
+                </div>
+                {% endif%} {% endfor%} {% for product in products %}{% if product.offer == True %}
+                <div class="product-item">
+                    <div class="pi-pic">
+                        {% if product.new == True %}
+                        <div class="tag-new">New</div>
+                        {% endif %} {% if product.offer == True %}
+                        <div class="tag-sale">In Offer</div>
+                        {% endif %}
+                        <a href="{% url 'sb-product' product.author.username %}"><img src="{{product.product_image.url}}" alt=""></a>
+                        <div class="pi-links">
+                            <a href="{% url 'order-product' product.author.username %}" class="add-card"><i class="flaticon-bag"></i><span>PLACE ORDER</span></a>
+                            <a href="{% url 'sb-product' product.author.username %}" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                        </div>
+                    </div>
+                    <div class="pi-text">
+                        {% if product.offer == True %}
+                        <h6>Was <strike>Ksh{{product.price}}</strike> Now Ksh{{product.offer_price}}</h6>
+                        {% else %}
+                        <h6>Ksh{{product.price}}</h6>
+                        {% endif %}
+                        <p>{{product.product_name}}</p>
+                    </div>
+                </div>
+                {% endif%} {% endfor%} {% for restaurant in restaurants %}{% if restaurant.offer == True %}
+                <div class="product-item">
+                    <div class="pi-pic">
+                        {% if restaurant.offer == True %}
+                        <div class="tag-sale">In Offer</div>
+                        {% endif %}
+                        <a href="{% url 'sb-food' restaurant.author.username %}"><img src="{{restaurant.food_image.url}}" alt=""></a>
+                        <div class="pi-links">
+                            <a href="{% url 'order-food' restaurant.author.username %}" class="add-card"><i class="flaticon-bag"></i><span>PLACE ORDER</span></a>
+                            <a href="{% url 'sb-food' restaurant.author.username %}" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                        </div>
+                    </div>
+                    <div class="pi-text">
+                        {% if restaurant.offer == True %}
+                        <h6>Was <strike>Ksh{{restaurant.price}}</strike> Now Ksh{{restaurant.offerprice}} </h6>
+                        {% else%}
+                        <h6>Ksh{{restaurant.price}}</h6>
+                        {% endif%}
+                        <p>{{restaurant.food_name}}</p>
+                    </div>
+                </div>
+                {% endif%} {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Banner section -->
+    <section class="banner-section">
+        <div class="container">
+            <div class="banner set-bg" data-setbg="{% static 'hm/img/banner-bg.jpg' %}">
+                <div class="tag-new">HINT</div>
+                <span>Feel Unstopable</span>
+                <h2>Take Your Business To The Next Level</h2>
+                <a href="{% url 'business_signup'%}" class="site-btn">Register Here</a>
+            </div>
+        </div>
+    </section>
+    <!-- Banner section end  -->
+
+
+    <!-- Footer section -->
+    <section class="footer-section">
+        <div class="container">
+            <div class="footer-logo text-center">
+                <a href="/"><img src="{% static 'hm/img/logo-light3.png' %}" alt=""></a>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-sm-6" id="about">
+                    <div class="footer-widget about-widget">
+                        <h2>About us</h2>
+                        <p>Alpha is a technology company in Kenya that helps your business reach more customers and help customers get products, foods and services in one place from there local businesses.#The Future </p>
+                        <img src="{% static 'hm/img/cards.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="footer-widget about-widget">
+                        <h2>Help</h2>
+                        <ul>
+
+                            <li><a href="/">Home</a></li>
+                            <li><a href="#products">Products</a></li>
+                            <li><a href="#services">Services</a></li>
+                            <li><a href="#food">Foods and Drinks</a></li>
+                            <li><a href="#new">New</a></li>
+                            <li><a href="#all">Don't Know what I want</a></li>
+                            <li><a href="#about">About Us</a></li>
+                            <li><a href="{% url 'blog' %}">Blog</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="footer-widget about-widget">
+                        <h2>Questions</h2>
+                        <div class="fw-latest-post-widget">
+                            <div class="lp-item">
+                                <div class="lp-thumb set-bg" data-setbg="{% static 'hm/img/blog-thumbs/1.jpg' %}"></div>
+                                <div class="lp-content">
+                                    <h6>Who is Alpha co-founder</h6>
+                                    <span>2020</span>
+                                    <a href="#" class="readmore">Read More</a>
+                                </div>
+                            </div>
+                            <div class="lp-item">
+                                <div class="lp-thumb set-bg" data-setbg="{% static 'hm/img/blog-thumbs/2.jpg' %}"></div>
+                                <div class="lp-content">
+                                    <h6>trends this year</h6>
+                                    <span>2020</span>
+                                    <a href="#" class="readmore">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="footer-widget contact-widget">
+                        <h2>Questions</h2>
+                        <div class="con-info">
+                            <span>Company</span>
+                            <p>Alpha Ltd </p>
+                        </div>
+                        <div class="con-info">
+                            <span>Location</span>
+                            <p>Limuru, Kiambu Kenya</p>
+                        </div>
+                        <div class="con-info">
+                            <span>Telphone</span>
+                            <p>+254 705 055 022 62</p>
+                        </div>
+                        <div class="con-info">
+                            <span>Email</span>
+                            <p>alphathefuture1@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="social-links-warp">
+            <div class="container">
+                <div class="social-links">
+                    <a href="" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
+                    <a href="" class="google-plus"><i class="fa fa-google-plus"></i><span>g+plus</span></a>
+                    <a href="" class="pinterest"><i class="fa fa-pinterest"></i><span>pinterest</span></a>
+                    <a href="" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
+                    <a href="" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
+                    <a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>
+                    <a href="" class="tumblr"><i class="fa fa-tumblr-square"></i><span>tumblr</span></a>
+                </div>
+
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                <p class="text-white text-center mt-5">Copyright &copy;
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script> All rights reserved | This web applications is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank">Alpha </a>with help from Colorlib</p>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+            </div>
+        </div>
+    </section>
+    <!-- Footer section end -->
+
+
+
+    <!--====== Javascripts & Jquery ======-->
+    <script src="{% static 'hm/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'hm/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'hm/js/jquery.slicknav.min.js' %}"></script>
+    <script src="{% static 'hm/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'hm/js/jquery.nicescroll.min.js' %}"></script>
+    <script src="{% static 'hm/js/jquery.zoom.min.js' %}"></script>
+    <script src="{% static 'hm/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'hm/js/main.js' %}"></script>
+
+</body>
+
+</html>

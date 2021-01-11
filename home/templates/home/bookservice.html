@@ -1,0 +1,408 @@
+<!DOCTYPE html> {% load static %}{% load crispy_forms_tags%}
+<html lang="en">
+
+<head>
+    <title>Alpha</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <link href="{% static 'hm/img/favicon2.png' %}" rel="shortcut icon" />
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'home/css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/aos.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/ionicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/jquery.timepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+    <style>
+        .avatar {
+            vertical-align: middle;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">Alpha</a> {% if user.is_authenticated %}
+
+            <a href="{% url 'profile' %}"><img class="avatar" src="{{user.profile.profile_photo.url}}"></a> {% endif%}
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="oi oi-menu"></span> Menu
+      </button>
+
+            <div class="collapse navbar-collapse" id="ftco-nav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="{% url 'blog' %}" class="nav-link">blog</a></li>
+                    <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact Us</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Logout</a></li>
+                    {% else%}
+                    <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+                    <li class="nav-item"><a href="{% url 'signup' %}" class="nav-link">Register</a></li>
+                    {% endif%}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END nav -->
+
+
+
+    <div class="block-30 block-30-sm item" style="background-image: url({% static 'home/images/logo.png' %});" data-stellar-background-ratio="0.5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-10">
+                    <span class="subheading-sm">Services From</span>
+                    <h2 class="heading">{{usrname}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="blog" class="site-section">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-8">
+                    <h2 class="mb-3">{{usrname}}</h2>
+
+
+                    <p><img src="{{usr.profile.profile_photo.url}}" alt="" class="img-fluid"></p>
+                    {% for bs in bsuser%}
+                    <h2 class="mb-3 mt-5">{{bs.about_business}}</h2>
+                    {% endfor%}
+                    <small>located: {{usr.profile.location}}</small>
+
+
+                    <div class="tag-widget post-tag-container mb-5 mt-5">
+                        <div class="tagcloud">
+                            <small>Click here to Book</small>
+                            <a href="#book" class="tag-cloud-link">Book an Appointment</a>
+
+                        </div>
+                    </div>
+                    <!-- <div class="sidebar-box">
+                        <form action="#" class="search-form">
+                            <div class="form-group">
+                                <span class="icon fa fa-search"></span>
+                                <input type="text" class="form-control" placeholder="Type a keyword and hit enter">
+                                <button><i class="form-control">search</i></button>
+                            </div>
+                        </form>
+                    </div>-->
+                    <!--if statement-->
+                    <div class="site-section bg-light">
+                        <div class="container">
+                            <div class="row mb-5">
+                                <div class="col-md-7 section-heading">
+                                    <!--if statement-->
+                                    <span class="subheading-sm">My</span>
+                                    <h2 class="heading">Business Services</h2>
+                                </div>
+                            </div>
+
+                            <div class="block-35">
+
+                                <ul class="nav" id="pills-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Services</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">New</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Offers</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="pills-tabContent">
+                                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                        <div class="row">
+                                            <div class="col-md-12 block-13">
+                                                <div class="nonloop-block-13 owl-carousel">
+
+
+                                                    <!--start-->
+                                                    {% for service in services %}
+                                                    <div class="item">
+                                                        <div class="block-34">
+                                                            <div class="image">
+                                                                <a href="#book"><img src="{{service.service_image.url}}" alt="Image placeholder"></a>
+                                                            </div>
+                                                            <div class="text">
+                                                                <h2 class="heading">{{service.service_name}}</h2>
+                                                                <p>{{service.about_service}}</p>
+                                                                {% if service.offer == True %}
+                                                                <small>Was</small>
+                                                                <div class="price"><sup>Ksh</sup><strike><span class="number">{{service.price}}</span></strike></div>
+                                                                <small>Now</small>
+                                                                <div class="price"><sup>Ksh</sup><span class="number">{{service.offer_price}}</span></div>
+                                                                {% else%}
+                                                                <div class="price"><sup>Ksh</sup><span class="number">{{service.price}}</span></div>
+                                                                {% endif%}
+                                                            </div>
+                                                            {% if service.author == user %}
+                                                            <a href="{% url 'service-update' service.id %}" class="btn btn-primary px-4">Update</a>
+                                                            <a href="{% url 'service-delete' service.id %}" class="btn btn-primary px-4">Delete</a> {% endif%}
+                                                        </div>
+
+                                                    </div>
+                                                    {% endfor %}
+                                                    <!--end-->
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                        <div class="row">
+                                            <div class="col-md-12 block-13">
+                                                <div class="nonloop-block-13 owl-carousel">
+
+
+
+                                                    <!--start-->
+                                                    {% for service in services%} {% if service.new == True%}
+                                                    <div class="item">
+                                                        <div class="block-34">
+                                                            <div class="image">
+                                                                <a href="#book"><img src="{{service.service_image.url}}" alt="Image placeholder"></a>
+                                                            </div>
+                                                            <div class="text">
+                                                                <h2 class="heading">{{service.service_name}}</h2>
+                                                                <p>{{service.about_service}}</p>
+                                                                {% if service.offer == True %}
+                                                                <small>Was</small>
+                                                                <div class="price"><sup>Ksh</sup><strike><span class="number">{{service.price}}</span></strike></div>
+                                                                <small>Now</small>
+                                                                <div class="price"><sup>Ksh</sup><span class="number">{{service.offer_price}}</span></div>
+                                                                {% else%}
+                                                                <div class="price"><sup>Ksh</sup><span class="number">{{service.price}}</span></div>
+                                                                {% endif%}
+                                                            </div>
+                                                            {% if service.author == user %}
+                                                            <a href="{% url 'service-update' service.id %}" class="btn btn-primary px-4">Update</a>
+                                                            <a href="{% url 'service-delete' service.id %}" class="btn btn-primary px-4">Delete</a> {% endif%}
+                                                        </div>
+                                                    </div>
+                                                    {% endif%} {% endfor%}
+                                                    <!--end-->
+
+
+
+
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                        <!--start-->
+                                        <div class="row">
+                                            <div class="col-md-12 block-13">
+                                                <div class="nonloop-block-13 owl-carousel">
+                                                    <!--start-->
+                                                    {% for service in services%} {% if service.offer == True%}
+                                                    <div class="item">
+                                                        <div class="block-34">
+                                                            <div class="image">
+                                                                <a href="#book"><img src="{{service.service_image.url}}" alt="Image placeholder"></a>
+                                                            </div>
+                                                            <div class="text">
+                                                                <h2 class="heading">{{service.service_name}}</h2>
+                                                                <p>{{service.about_service}}</p>
+                                                                {% if service.offer == True %}
+                                                                <small>Was</small>
+                                                                <div class="price"><sup>Ksh</sup><strike><span class="number">{{service.price}}</span></strike></div>
+                                                                <small>Now</small>
+                                                                <div class="price"><sup>Ksh</sup><span class="number">{{service.offer_price}}</span></div>
+                                                                {% else%}
+                                                                <div class="price"><sup>Ksh</sup><span class="number">{{service.price}}</span></div>
+                                                                {% endif%}
+
+                                                            </div>
+                                                            {% if service.author == user %}
+                                                            <a href="{% url 'service-update' service.id %}" class="btn btn-primary px-4">Update</a>
+                                                            <a href="{% url 'service-delete' service.id %}" class="btn btn-primary px-4">Delete</a> {% endif%}
+                                                        </div>
+
+                                                    </div>
+                                                    {% endif%}{% endfor%}
+                                                    <!--end-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end-->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="pt-5 mt-5">
+
+
+
+                        <div class="comment-form-wrap pt-5" id="#book">
+
+                            <h3 class="mb-5">Book service</h3>
+                            <small>The phone number should be active because {{usrname}} will use it to communicate with you</small>
+                            <small>You can book only one service and leave the other fields as they are</small>
+                            <small>When choosing  more than one service choose from 
+                                service_1 to service_4 in that order
+                                
+                        </small> {% if user.is_authenticated %}
+                            <form method="POST" class="p-5 bg-light">
+                                {% csrf_token %}
+                                <div class="form-group">
+
+                                    {{ form|crispy }}
+
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
+                                </div>
+
+                            </form>
+                            {% else %}
+                            <h4>You must be loged in to comment</h4>
+                            <a href="{% url 'login' %}">Click here to login</a> {% endif%}
+                        </div>
+                    </div>
+
+                </div>
+                <!-- .col-md-8 -->
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md-6 col-lg-4">
+                    <h3 class="heading-section">About Us</h3>
+                    <p class="mb-5">Alpha is a technology company that helps your business reach more customers and help customers get products, foods and services in one place.#Good vibes</p>
+                    <p><a href="#" class="btn btn-primary px-4">Button</a></p>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <h3 class="heading-section">Blog</h3>
+                    <div class="block-21 d-flex mb-4">
+                        <figure class="mr-3">
+                            <img src="images/img_1.jpg" alt="" class="img-fluid">
+                        </figure>
+                        <div class="text">
+                            <h3 class="heading"><a href="/">About us</a></h3>
+                            <div class="meta">
+                                <div><a href="#"><span class="icon-calendar"></span> 2020</a></div>
+                                <div><a href="#"><span class="icon-person"></span> Alpha</a></div>
+                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="block-21 d-flex mb-4">
+                        <figure class="mr-3">
+                            <img src="images/img_2.jpg" alt="" class="img-fluid">
+                        </figure>
+                        <div class="text">
+                            <h3 class="heading"><a href="#">Awesome events</a></h3>
+                            <div class="meta">
+                                <div><a href="#"><span class="icon-calendar"></span>  2020</a></div>
+                                <div><a href="#"><span class="icon-person"></span> Alpha</a></div>
+                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="block-21 d-flex mb-4">
+                        <figure class="mr-3">
+                            <img src="images/img_3.jpg" alt="" class="img-fluid">
+                        </figure>
+                        <div class="text">
+                            <h3 class="heading"><a href="#">Best business in town</a></h3>
+                            <div class="meta">
+                                <div><a href="#"><span class="icon-calendar"></span> 2020</a></div>
+                                <div><a href="#"><span class="icon-person"></span> Alpha</a></div>
+                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="block-23">
+                        <h3 class="heading-section">Contact Info</h3>
+                        <ul>
+                            <li><span class="icon icon-map-marker"></span><span class="text">Limuru, Kiambu Kenya</span></li>
+                            <li><a href="#"><span class="icon icon-phone"></span><span class="text">+254 70550 2262</span></a></li>
+                            <li><a href="#"><span class="icon icon-envelope"></span><span class="text">alphathefuture1@gmail.com</span></a></li>
+                            <li><span class="icon icon-clock-o"></span><span class="text">Monday &mdash; Friday 8:00am - 5:00pm</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="row pt-5">
+                <div class="col-md-12 text-left">
+                    <p>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script> All rights reserved | This web application is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank" class="text-primary"> Alpha with help from Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- loader -->
+    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+    <script src="{% static 'home/js/jquery.min.js' %}"></script>
+    <script src="{% static 'home/js/jquery-migrate-3.0.1.min.js' %}"></script>
+    <script src="{% static 'home/js/popper.min.js' %}"></script>
+    <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'home/js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'home/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'home/js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'home/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'home/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'home/js/bootstrap-datepicker.js' %}"></script>
+
+    <script src="{% static 'home/js/aos.js' %}"></script>
+    <script src="{% static 'home/js/jquery.animateNumber.min.js' %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    <script src="{% static 'home/js/google-map.js' %}"></script>
+    <script src="{% static 'home/js/main.js' %}"></script>
+
+</body>
+
+</html>

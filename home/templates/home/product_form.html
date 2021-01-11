@@ -1,0 +1,220 @@
+<!DOCTYPE html> {% load static%}{% load crispy_forms_tags%}
+<html lang="zxx">
+
+<head>
+    <title>Alpha</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Alpha">
+    <meta name="keywords" content="the future">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon .heic-->
+    <link href="{% static 'hm/img/favicon1.heic' %}" rel="shortcut icon" />
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
+
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{% static 'hm/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/flaticon.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/slicknav.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/jquery-ui.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/animate.css' %}" />
+    <link rel="stylesheet" href="{% static 'hm/css/style.css' %}" />
+    <style>
+        .avatar {
+            vertical-align: middle;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%
+        }
+    </style>
+
+</head>
+
+<body>
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show"> <strong>Success!</strong> {{ message}} <button type="button" class="close" data-dismiss="alert">&times;</button></div>
+    {% endfor %} {% endif %}
+    <header class="header-section">
+        <div class="header-top">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-2 text-center text-lg-left">
+                        <!-- logo -->
+                        <a href="/" class="site-logo">
+                            <img src="{% static 'hm/img/logo.png' %}" alt="">
+
+                        </a>
+                    </div>
+                    <div class="col-xl-4 col-lg-5">
+                        <div class="user-panel">
+                            <div class="up-item">
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'profile' %}"><img class="avatar" src="{{user.profile.profile_photo.url}}"></a>
+                                <h3><a href="{% url 'profile' %}">{{user.username}}</a></h3>
+
+                                {% endif%}
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <nav class="main-navbar">
+            <div class="container">
+                <!-- menu -->
+                <ul class="main-menu">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'blog' %}">Blog</a></li>
+                    <li><a href="{% url 'contact' %}">contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="row">
+                {% for activate in activated%} {% if activate.product == True %} {% for bs in setbs%}{% if bs.product == True %}
+                <div class="col-lg-6 contact-info">
+                    <h2>Add Your Business Products</h2>
+                    <form class="contact-form" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ next }}"> {{ form|crispy }}
+                        <button class="site-btn" value="save_product" name="save_product">save</button>
+                        <button class="site-btn" value="add_product" name="add_product">save and add another</button>
+                    </form>
+                </div>
+                {% else %}
+                <div class="col-lg-6 contact-info">
+                    <h2>Your business does not deal with products</h2>
+                    <a href="{% url 'update-set-business' user.username %}" class="site-btn">Change Here</a>
+
+
+                </div>
+                {% endif %} {% endfor%}{% else %}
+                <div class="col-lg-6 contact-info">
+                    <h2>Your business is not activated to operate products</h2>
+                    <a href="{% url 'contact'  %}" class="site-btn">Contact us for activation</a>
+                    <p>Or call us on +254799786808 or +254798574482</p>
+
+
+                </div>
+                {% endif%} {% endfor%}
+            </div>
+        </div>
+    </section>
+
+    <section class="footer-section">
+        <div class="container">
+            <div class="footer-logo text-center">
+                <a href="/"><img src="{% static 'hm/img/logo-light3.png' %}" alt=""></a>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-sm-6" id="about">
+                    <div class="footer-widget about-widget">
+                        <h2>About us</h2>
+                        <p>Alpha is a technology company that helps your business reach more customers and help customers get products, foods and services in one place.#Good vibes</p>
+                        <img src="{% static 'hm/img/cards.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="footer-widget about-widget">
+                        <h2>Help</h2>
+                        <ul>
+
+                            <li><a href="/">Home</a></li>
+                            <li><a href="{% url 'blog' %}">Blog</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="footer-widget about-widget">
+                        <h2>Questions</h2>
+                        <div class="fw-latest-post-widget">
+                            <div class="lp-item">
+                                <div class="lp-thumb set-bg" data-setbg="{% static 'hm/img/blog-thumbs/1.jpg' %}"></div>
+                                <div class="lp-content">
+                                    <h6>Who is Alpha co-founder</h6>
+                                    <span>2020</span>
+                                    <a href="#" class="readmore">Read More</a>
+                                </div>
+                            </div>
+                            <div class="lp-item">
+                                <div class="lp-thumb set-bg" data-setbg="{% static 'hm/img/blog-thumbs/2.jpg' %}"></div>
+                                <div class="lp-content">
+                                    <h6>trends this year</h6>
+                                    <span>2020</span>
+                                    <a href="#" class="readmore">Read More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6">
+                    <div class="footer-widget contact-widget">
+                        <h2>Questions</h2>
+                        <div class="con-info">
+                            <span>Company</span>
+                            <p>Alpha Ltd </p>
+                        </div>
+                        <div class="con-info">
+                            <span>Location</span>
+                            <p>Limuru, Kiambu Kenya</p>
+                        </div>
+                        <div class="con-info">
+                            <span>Telphone</span>
+                            <p>+254 705 055 022 62</p>
+                        </div>
+                        <div class="con-info">
+                            <span>Email</span>
+                            <p>alphathefuture1@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="social-links-warp">
+            <div class="container">
+                <div class="social-links">
+                    <a href="" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
+                    <a href="" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
+                    <a href="" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
+                    <a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>
+                </div>
+
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                <p class="text-white text-center mt-5">Copyright &copy;
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script> All rights reserved | This web applications is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank">Alpha </a>with help from Colorlib</p>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+            </div>
+        </div>
+    </section>
+    <!-- Footer section end -->
+
+
+
+    <!--====== Javascripts & Jquery ======-->
+    <script src="{% static 'hm/js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'hm/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'hm/js/jquery.slicknav.min.js' %}"></script>
+    <script src="{% static 'hm/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'hm/js/jquery.nicescroll.min.js' %}"></script>
+    <script src="{% static 'hm/js/jquery.zoom.min.js' %}"></script>
+    <script src="{% static 'hm/js/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'hm/js/main.js' %}"></script>
+
+</body>
+
+</html>
