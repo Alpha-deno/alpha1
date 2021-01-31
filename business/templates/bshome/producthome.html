@@ -9,6 +9,7 @@
     <link href="{% static 'hm/img/favicon2.png' %}" rel="shortcut icon" />
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'home/css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'hm/css/font-awesome.min.css' %}" />
     <link rel="stylesheet" href="{% static 'home/css/animate.css' %}">
     <link rel="stylesheet" href="{% static 'home/css/owl.carousel.min.css' %}">
     <link rel="stylesheet" href="{% static 'home/css/owl.theme.default.min.css' %}">
@@ -28,6 +29,17 @@
             border-radius: 50%
         }
     </style>
+    <script>
+        function copyToClipboard(text) {
+            var inputc = document.body.appendChild(document.createElement("input"));
+            inputc.value = window.location.href;
+            inputc.focus();
+            inputc.select();
+            document.execCommand('copy');
+            inputc.parentNode.removeChild(inputc);
+            alert("Link/URL Copied. Paste and share it with friends and family");
+        }
+    </script>
 </head>
 
 <body>
@@ -73,7 +85,7 @@
             <div class="row align-items-center">
                 <div class="col-md-10">
                     <span class="subheading-sm">Products from</span>
-                    <h2 class="heading">{{usrname}}</h2>
+                    <h6 class="heading">{{usrname}}</h6>
                 </div>
             </div>
         </div>
@@ -84,278 +96,349 @@
         <div class="container">
 
             <div class="row">
-                {% for active in activator%} {%if active.product == True%}
+                {% for bs in bsuser%} {% if bs.product == True%}{% for active in activator%} {%if active.product == True%}
                 <div class="col-md-8">
                     <h2 class="mb-3">{{usrname}}</h2>
 
                     <p><img src="{{usr.profile.profile_photo.url}}" alt="" class="img-fluid"></p>
-                    {% for bs in bsuser%}
+
                     <h2 class="mb-3 mt-5">{{bs.about_business}}</h2>
-                    {% endfor%}
-                    <small>located: {{usr.profile.location}}</small>
+                    {% if usr.profile.location == 'update me' %} {% if user.username == usrname %}
+                    <br><small>Please update your business Location so that customers can reach you easily</small><br>
                     <div class="tag-widget post-tag-container mb-5 mt-5">
                         <div class="tagcloud">
-                            <a href="#comment" class="tag-cloud-link">comment</a>
-                            <a href="{% url 'order-product' usrname%}" class="tag-cloud-link">Place Order</a> {% if user.username == usrname %}
-                            <a href="#orders" class="tag-cloud-link">Check Orders</a>
-                            <a href="{% url 'product-create' %}" class="tag-cloud-link">Add product</a> {% endif%}
-
+                            <a href="{% url 'profile'%}" class="tag-cloud-link">Update Location</a>
                         </div>
                     </div>
-
-                    <!--if statement-->
-                    <div class="site-section bg-light">
-                        <div class="container">
-                            <div class="row mb-5">
-                                <div class="col-md-7 section-heading">
-                                    <!--if statement-->
-                                    <span class="subheading-sm">My</span>
-                                    <h2 class="heading">Business Products</h2>
-                                </div>
-                            </div>
-
-                            <div class="block-35">
-
-                                <ul class="nav" id="pills-tab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Products</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">New</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Offers</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content" id="pills-tabContent">
-                                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                                        <div class="row">
-                                            <div class="col-md-12 block-13">
-                                                <div class="nonloop-block-13 owl-carousel">
-
-
-                                                    <!--start-->
-                                                    {% for product in products%}
-                                                    <div class="item">
-                                                        <div class="block-34">
-                                                            <div class="image">
-                                                                <a href="{% url 'order-product' product.author.username%}"><img src="{{product.product_image.url}}" alt="Image placeholder"></a>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h2 class="heading">{{product.product_name}}</h2>
-                                                                <p>{{product.about_product}}</p>
-                                                                {% if product.offer == True %}
-                                                                <small>Was</small>
-                                                                <div class="price"><sup>Ksh</sup><strike><span class="number">{{product.price}}</span></strike></div>
-                                                                <small>Now</small>
-                                                                <div class="price"><sup>Ksh</sup><span class="number">{{product.offer_price}}</span></div>
-                                                                {% else%}
-                                                                <div class="price"><sup>Ksh</sup><span class="number">{{product.price}}</span></div>
-                                                                {% endif%}
-                                                            </div>
-                                                            {% if product.author == user %}
-                                                            <a href="{% url 'product-update' product.id %}" class="btn btn-primary px-4">Update</a>
-                                                            <a href="{% url 'product-delete' product.id %}" class="btn btn-primary px-4">Delete</a> {% endif%}
-                                                        </div>
-
-                                                    </div>
-
-                                                    {% endfor%}
-                                                    <!--end-->
-
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                                        <div class="row">
-                                            <div class="col-md-12 block-13">
-                                                <div class="nonloop-block-13 owl-carousel">
-
-
-
-                                                    <!--start-->
-                                                    {% for product in products %} {% if product.new == True %}
-                                                    <div class="item">
-                                                        <div class="block-34">
-                                                            <div class="image">
-                                                                <a href="{% url 'order-product' product.author.username%}"><img src="{{product.product_image.url}}" alt="Image placeholder"></a>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h2 class="heading">{{product.product_name}}</h2>
-                                                                <p>{{product.about_product}}</p>
-                                                                {% if product.offer == True %}
-                                                                <small>Was</small>
-                                                                <div class="price"><sup>Ksh</sup><strike><span class="number">{{product.price}}</span></strike></div>
-                                                                <small>Now</small>
-                                                                <div class="price"><sup>Ksh</sup><span class="number">{{product.offer_price}}</span></div>
-                                                                {% else%}
-                                                                <div class="price"><sup>Ksh</sup><span class="number">{{product.price}}</span></div>
-                                                                {% endif%}
-                                                            </div>
-                                                            {% if product.author == user %}
-                                                            <a href="{% url 'product-update' product.id %}" class="btn btn-primary px-4">Update</a>
-                                                            <a href="{% url 'product-delete' product.id %}" class="btn btn-primary px-4">Delete</a> {% endif%}
-                                                        </div>
-
-                                                    </div>
-                                                    {% endif%} {% endfor%}
-                                                    <!--end-->
-
-
-
-
-
-
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                                        <!--start-->
-                                        <div class="row">
-                                            <div class="col-md-12 block-13">
-                                                <div class="nonloop-block-13 owl-carousel">
-                                                    <!--start-->
-                                                    {% for product in products%} {% if product.offer == True%}
-                                                    <div class="item">
-                                                        <div class="block-34">
-                                                            <div class="image">
-                                                                <a href="{% url 'order-product' product.author.username%}"><img src="{{product.product_image.url}}" alt="Image placeholder"></a>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h2 class="heading">{{product.product_name}}</h2>
-                                                                <p>{{product.about_product}}</p>
-                                                                {% if product.offer == True %}
-                                                                <small>Was</small>
-                                                                <div class="price"><sup>Ksh</sup><strike><span class="number">{{product.price}}</span></strike></div>
-                                                                <small>Now</small>
-                                                                <div class="price"><sup>Ksh</sup><span class="number">{{product.offer_price}}</span></div>
-                                                                {% else%}
-                                                                <div class="price"><sup>Ksh</sup><span class="number">{{product.price}}</span></div>
-                                                                {% endif%}
-                                                            </div>
-                                                            {% if product.author == user %}
-                                                            <a href="{% url 'product-update' product.id %}" class="btn btn-primary px-4">Update</a>
-                                                            <a href="{% url 'product-delete' product.id %}" class="btn btn-primary px-4">Delete</a> {% endif%}
-                                                        </div>
-
-                                                    </div>
-                                                    {% endif%}{% endfor%}
-                                                    <!--end-->
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--end-->
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="pt-5 mt-5">
-                        {% if comment == 1 or comment == 0 %}
-                        <h3 class="mb-5">{{comment}} Comment</h3>
-                        {% else%}
-                        <h3 class="mb-5">{{comment}} Comments</h3>
-                        {% endif %}
-                        <ul class="comment-list">
-
-                            {% for comment in comments%}
-                            <li class="comment">
-                                <div class="vcard bio">
-                                    <img src="{{comment.author.profile.profile_photo.url}}" alt="Image placeholder">
-                                </div>
-                                <div class="comment-body">
-                                    <h3>{{comment.author.username}}</h3>
-                                    <div class="meta">{{comment.date_posted}}</div>
-                                    <p> {{comment.message}}
-                                    </p>
-                                    {% if comment.author == user %}
-                                    <p><a href="{% url 'bscomment-delete' comment.id %}" class="reply">Delete</a></p>{% endif%}
-                                </div>
-                            </li>
-                            {% endfor%}
-
-                        </ul>
-                        <!-- END comment-list -->
-
-                        <div class="comment-form-wrap pt-5" id="#comment">
-                            <p>Tell them how you feel</p>
-                            <h3 class="mb-5">Leave a comment</h3>
-                            {% if user.is_authenticated %}
-                            <form method="POST" class="p-5 bg-light">
-                                {% csrf_token %}
-                                <div class="form-group">
-
-                                    {{ form|crispy }}
-
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
-                                </div>
-
-                            </form>
-                            {% else %}
-                            <h4>You must be loged in to comment</h4>
-                            <a href="{% url 'login' %}">Click here to login</a> {% endif%}
-
-                        </div>
-                    </div>
-                    {% if user.username == usrname %}
+                    {% endif%}{%else%}
+                    <h3 class="mb-3 mt-5">Located: {{usr.profile.location}}</h3><br> {% endif%} {% if user.username == usrname %}
 
 
                     <div class="pt-5 mt-5" id="orders">
                         <div class="tag-widget post-tag-container mb-5 mt-5">
                             <div class="tagcloud">
-                                <a href="{% url 'sb-product' usrname%}" class="tag-cloud-link">Refresh</a>
+                                <a href="{% url 'update-set-business' user.username %}" class="tag-cloud-link">Change About Business</a>
 
 
                             </div>
                         </div>
-                        {% if order == 1 or order == 0 %}
-                        <h3 class="mb-5">{{order}} order</h3>
-                        {% else%}
-                        <h3 class="mb-5">{{order}} orders</h3>
-                        {% endif %}
+                        {% endif%}
 
-                        <ul class="comment-list">
+                        <div class="tag-widget post-tag-container mb-5 mt-5">
+                            <div class="tagcloud">
+                                <a href="#comment" class="tag-cloud-link">comment</a>
+                                <a href="{% url 'order-product' usrname%}" class="tag-cloud-link">Place Order</a> {% if user.username == usrname %}
+                                <a href="#checkorder" class="tag-cloud-link">Check Orders</a>
+                                <a href="{% url 'product-create' %}" class="tag-cloud-link">Add product</a>
+                                <a href="{% url 'profile'%}" class="tag-cloud-link">Update Location</a> {% endif%}
 
-                            {% for order in orders%}
-                            <li class="comment">
-                                <div class="vcard bio">
-                                    <img src="{{order.author.profile.profile_photo.url}}" alt="Image placeholder">
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <p>Copy this business home page link and Share it with friends and family</p><br>
+                                <p><a onclick="copyToClipboard()" class="btn btn-primary px-4">Copy Link</a></p><br>
+
+                            </div>
+                        </div>
+
+                        <!--if statement-->
+                        <div class="site-section bg-light">
+                            <div class="container">
+                                <div class="row mb-5">
+                                    <div class="col-md-7 section-heading">
+                                        {% if usr.profile.instagram != '#' or usr.profile.facebook != '#' or usr.profile.twitter != '#'%}
+                                        <h6>Holla me at</h6>
+                                        {% endif%}
+
+                                        <div class="social-links">
+                                            {% if usr.profile.instagram != '#'%}
+                                            <a href="https://www.instagram.com/{{usr.profile.instagram}}"><i class="fa fa-instagram"></i><span>-{{usr.profile.instagram}} </span></a> {% endif%} {% if usr.profile.facebook != '#'%}
+                                            <a href="https://www.facebook.com/{{usr.profile.facebook}}"><i class="fa fa-facebook"></i><span>-{{usr.profile.facebook}} </span></a>{% endif%} {% if usr.profile.twitter != '#'%}
+                                            <a href="https://www.twitter.com/{{usr.profile.twitter}}"><i class="fa fa-twitter"></i><span>@{{usr.profile.twitter}} </span></a>{% endif%}<br>
+
+                                            <!--<a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>-->
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-7 section-heading">
+                                        <!--if statement-->
+                                        <span class="subheading-sm">My</span>
+                                        <h2 class="heading">Business Products</h2>
+                                    </div>
                                 </div>
-                                <div class="comment-body">
-                                    <h3>Order by {{order.author.username}}</h3>
-                                    <div class="meta">{{order.date_posted}}</div>
-                                    <p>+{{order.Phone_Number}}</p>
-                                    <p>location: {{order.location}}</p>
-                                    <p> {{order.product_1.product_name}},{{order.product_2.product_name}},{{order.product_3.product_name}}, {{order.product_4.product_name}},{{order.product_5.product_name}} and {{order.product_6.product_name}}
-                                    </p>
-                                    <p><a href="{% url 'prorder-delete' order.id%}" class="reply">Delete</a></p>
+
+                                <div class="block-35">
+
+                                    <ul class="nav" id="pills-tab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Products</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">New</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Offers</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="pills-tabContent">
+                                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                            <div class="row">
+                                                <div class="col-md-12 block-13">
+                                                    <div class="nonloop-block-13 owl-carousel">
+
+
+                                                        <!--start-->
+                                                        {% for product in products%}
+                                                        <div class="item">
+                                                            <div class="block-34">
+                                                                <div class="image">
+                                                                    <a href="{% url 'order-product' product.author.username%}"><img src="{{product.product_image.url}}" alt="Image placeholder"></a>
+                                                                </div>
+                                                                <div class="text">
+                                                                    <h2 class="heading">{{product.product_name}}</h2>
+                                                                    <p>{{product.about_product}}</p>
+                                                                    <div class="price"><sup>Ksh</sup><span class="number">{{product.price}}</span></div>
+                                                                </div>
+                                                                {% if product.author == user %}
+                                                                <a href="{% url 'product-update' product.id %}" class="btn btn-primary px-4">Update</a>
+                                                                <a href="{% url 'product-delete' product.id %}" class="btn btn-primary px-4">Delete</a> {% endif%}
+                                                            </div>
+
+                                                        </div>
+
+                                                        {% endfor%}
+                                                        <!--end-->
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                            <div class="row">
+                                                <div class="col-md-12 block-13">
+                                                    <div class="nonloop-block-13 owl-carousel">
+
+
+
+                                                        <!--start-->
+                                                        {% for product in products %} {% if product.new == True %}
+                                                        <div class="item">
+                                                            <div class="block-34">
+                                                                <div class="image">
+                                                                    <a href="{% url 'order-product' product.author.username%}"><img src="{{product.product_image.url}}" alt="Image placeholder"></a>
+                                                                </div>
+                                                                <div class="text">
+                                                                    <h2 class="heading">{{product.product_name}}</h2>
+                                                                    <p>{{product.about_product}}</p>
+                                                                    <div class="price"><sup>Ksh</sup><span class="number">{{product.price}}</span></div>
+                                                                </div>
+                                                                {% if product.author == user %}
+                                                                <a href="{% url 'product-update' product.id %}" class="btn btn-primary px-4">Update</a>
+                                                                <a href="{% url 'product-delete' product.id %}" class="btn btn-primary px-4">Delete</a> {% endif%}
+                                                            </div>
+
+                                                        </div>
+                                                        {% endif%} {% endfor%}
+                                                        <!--end-->
+
+
+
+
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                            <!--start-->
+                                            <div class="row">
+                                                <div class="col-md-12 block-13">
+                                                    <div class="nonloop-block-13 owl-carousel">
+                                                        <!--start-->
+                                                        {% for product in products%} {% if product.offer == True%}
+                                                        <div class="item">
+                                                            <div class="block-34">
+                                                                <div class="image">
+                                                                    <a href="{% url 'order-product' product.author.username%}"><img src="{{product.product_image.url}}" alt="Image placeholder"></a>
+                                                                </div>
+                                                                <div class="text">
+                                                                    <h2 class="heading">{{product.product_name}}</h2>
+                                                                    <p>{{product.about_product}}</p>
+                                                                    <div class="price"><sup>Ksh</sup><span class="number">{{product.offer_price}}</span></div>
+                                                                </div>
+                                                                {% if product.author == user %}
+                                                                <a href="{% url 'product-update' product.id %}" class="btn btn-primary px-4">Update</a>
+                                                                <a href="{% url 'product-delete' product.id %}" class="btn btn-primary px-4">Delete</a> {% endif%}
+                                                            </div>
+
+                                                        </div>
+                                                        {% endif%}{% endfor%}
+                                                        <!--end-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end-->
+                                        </div>
+                                    </div>
+
                                 </div>
-                            </li>
-                            {% endfor%}
+                            </div>
+                        </div>
 
-                        </ul>
 
+
+                        <div class="pt-5 mt-5">
+
+                            {% if comment == 1 or comment == 0 %}
+                            <h3 class="mb-5">{{comment}} Comment</h3>
+                            {% else%}
+                            <h3 class="mb-5">{{comment}} Comments</h3>
+                            {% endif %}
+                            <div class="tag-widget post-tag-container mb-5 mt-5">
+                                <div class="tagcloud">
+                                    <a href="{% url 'sb-product' usrname%}" class="tag-cloud-link">Refresh</a>
+                                </div>
+                            </div>
+                            <ul class="comment-list">
+
+                                {% for comment in comments%}
+                                <li class="comment">
+                                    <div class="vcard bio">
+                                        <img src="{{comment.author.profile.profile_photo.url}}" alt="Image placeholder">
+                                    </div>
+                                    <div class="comment-body">
+                                        <h3>{{comment.author.username}}</h3>
+                                        <div class="meta">{{comment.date_posted}}</div>
+                                        <p> {{comment.message}}
+                                        </p>
+                                        <div class="social-links">
+                                            {% if comment.author.profile.instagram != '#'%}
+                                            <a href="https://www.instagram.com/{{comment.author.profile.instagram}}"><i class="fa fa-instagram"></i><span>-{{comment.author.profile.instagram}}  </span></a> {% endif%}
+                                            <!--<a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>-->
+                                            {% if comment.author.profile.facebook != '#'%}
+
+                                            <a href="https://www.facebook.com/{{comment.author.profile.facebook}}"><i class="fa fa-facebook"></i><span>-{{comment.author.profile.facebook}}  </span></a>{% endif%}
+                                            <!--<a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>-->
+                                            {% if comment.author.profile.twitter != '#'%}
+                                            <a href="https://www.twitter.com/{{comment.author.profile.twitter}}"><i class="fa fa-twitter"></i><span>@{{comment.author.profile.twitter}}  </span></a>{% endif%}
+                                            <!--<a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>-->
+                                        </div>
+                                        {% if comment.author == user %}
+                                        <p><a href="{% url 'bscomment-delete' comment.id %}" class="reply">Delete</a></p>
+                                        <p><a href="{% url 'profile'  %}" class="reply">Update Handles</a></p>
+                                        {% endif%}
+                                    </div>
+                                </li>
+                                {% endfor%}
+
+                            </ul>
+                            <!-- END comment-list -->
+
+                            <div class="comment-form-wrap pt-5" id="comment">
+                                <p>Tell them how you feel</p>
+                                <h3 class="mb-5">Leave a comment</h3>
+                                {% if user.is_authenticated %}
+                                <form method="POST" class="p-5 bg-light">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+
+                                        {{ form|crispy }}
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
+                                    </div>
+
+                                </form>
+                                {% else %}
+                                <h4>You must be loged in to comment</h4>
+                                <a href="{% url 'login' %}">Click here to login</a> {% endif%}
+
+                            </div>
+                        </div>
+                        {% if user.username == usrname %}
+
+
+                        <div class="pt-5 mt-5" id="checkorder">
+                            <div class="tag-widget post-tag-container mb-5 mt-5">
+                                <div class="tagcloud">
+                                    <a href="{% url 'sb-product' usrname%}" class="tag-cloud-link">Refresh</a>
+
+
+                                </div>
+                            </div>
+                            {% if order == 1 or order == 0 %}
+                            <h3 class="mb-5">{{order}} order</h3>
+                            {% else%}
+                            <h3 class="mb-5">{{order}} orders</h3>
+                            {% endif %}
+
+                            <ul class="comment-list">
+                                <h6>Order from un Registered user</h6>
+                                {% for order in ordrs%}
+                                <li class="comment">
+                                    <div class="vcard bio">
+                                        <img src="{% static 'home/default.jpg'%}" alt="Image placeholder">
+                                    </div>
+                                    <div class="comment-body">
+                                        <h3>Order by {{order.My_Name}}</h3>
+                                        <div class="meta">{{order.date_posted}}</div>
+                                        <p>{{order.Phone_Number}}</p>
+                                        <p>location: {{order.location}}</p>
+                                        <p> 1:{{order.product_1.product_name}}<br> 2:{{order.product_2.product_name}}<br> 3:{{order.product_3.product_name}}<br> 4:{{order.product_4.product_name}}<br> 5:{{order.product_5.product_name}}<br> 6:{{order.product_6.product_name}}
+                                        </p>
+
+                                        <p><a href="{% url 'proorder-delete' order.id%}" class="reply">Delete</a></p>
+                                    </div>
+                                </li>
+                                {% endfor%}
+                                <h6>Order from a Registered user</h6>
+                                {% for order in orders%}
+                                <li class="comment">
+                                    <div class="vcard bio">
+                                        <img src="{{order.author.profile.profile_photo.url}}" alt="Image placeholder">
+                                    </div>
+                                    <div class="comment-body">
+                                        <h3>Order by {{order.author.username}}</h3>
+                                        <div class="meta">{{order.date_posted}}</div>
+                                        <p>+{{order.Phone_Number}}</p>
+                                        <p>location: {{order.location}}</p>
+                                        <p> 1:{{order.product_1.product_name}}<br> 2:{{order.product_2.product_name}}<br> 3:{{order.product_3.product_name}}<br> 4:{{order.product_4.product_name}}<br> 5:{{order.product_5.product_name}}<br> 6:{{order.product_6.product_name}}
+                                        </p>
+                                        <div class="social-links">
+                                            {% if order.author.profile.instagram != '#'%}
+                                            <a href="https://www.instagram.com/{{order.author.profile.instagram}}"><i class="fa fa-instagram"></i><span>-{{order.author.profile.instagram}}  </span></a> {% endif%}
+                                            <!--<a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>-->
+                                            {% if order.author.profile.facebook != '#'%}
+
+                                            <a href="https://www.facebook.com/{{order.author.profile.facebook}}"><i class="fa fa-facebook"></i><span>-{{order.author.profile.facebook}}  </span></a>{% endif%} {% if order.author.profile.twitter != '#'%}
+                                            <a href="https://www.twitter.com/{{order.author.profile.twitter}}"><i class="fa fa-twitter"></i><span>@{{order.author.profile.twitter}}  </span></a>{% endif%}
+                                            <!--<a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>-->
+                                        </div>
+                                        <p><a href="{% url 'prorder-delete' order.id%}" class="reply">Delete</a></p>
+                                    </div>
+                                </li>
+                                {% endfor%}
+
+                            </ul>
+
+
+
+                        </div>
+                        {% endif%}
 
 
                     </div>
-                    {% endif%}
+                    <!-- .col-md-8 -->
+
 
 
                 </div>
-                <!-- .col-md-8 -->
                 {% else %}
                 <div class="col-md-8">
                     {% if user == usr%}
@@ -366,116 +449,116 @@
                     <h2>This business does not offer Products</h2>
                     {% endif%}
                 </div>
+                {% endif%} {% endfor%}{% else%}
+                <p>This business does not deal with food stuff</p>
+
                 {% endif%} {% endfor%}
 
 
             </div>
-
-
         </div>
-    </div>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="row mb-5">
-                <div class="col-md-6 col-lg-4">
-                    <h3 class="heading-section">About Us</h3>
-                    <p class="mb-5">Alpha is a technology company that helps your business reach more customers and help customers get products, foods and services in one place.#Good vibes</p>
-                    <p><a href="#" class="btn btn-primary px-4">Button</a></p>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <h3 class="heading-section">Blog</h3>
-                    <div class="block-21 d-flex mb-4">
-                        <figure class="mr-3">
-                            <img src="images/img_1.jpg" alt="" class="img-fluid">
-                        </figure>
-                        <div class="text">
-                            <h3 class="heading"><a href="/">About us</a></h3>
-                            <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span> 2021</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Alpha</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+        <footer class="footer">
+            <div class="container">
+                <div class="row mb-5">
+                    <div class="col-md-6 col-lg-4">
+                        <h3 class="heading-section">About Us</h3>
+                        <p class="mb-5">Alpha is a technology company that helps your business reach more customers and help customers get products, foods and services in one place.</p>
+                        <p><a href="/" class="btn btn-primary px-4">Back Home</a></p>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <h3 class="heading-section">Blog</h3>
+                        <div class="block-21 d-flex mb-4">
+                            <figure class="mr-3">
+                                <img src="{% static 'home/images/blog_1.jpg' %}" alt="" class="img-fluid">
+                            </figure>
+                            <div class="text">
+                                <h3 class="heading"><a href="{% url 'blog'%}">Check Blog</a></h3>
+                                <div class="meta">
+                                    <div><a href="{% url 'blog'%}"><span class="icon-calendar"></span> 2021</a></div>
+                                    <div><a href="{% url 'blog'%}"><span class="icon-person"></span> Alpha</a></div>
+                                    <div><a href="{% url 'blog'%}"><span class="icon-chat"></span> 19</a></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="block-21 d-flex mb-4">
+                            <figure class="mr-3">
+                                <img src="{% static 'home/images/blog_2.jpg' %}" alt="" class="img-fluid">
+                            </figure>
+                            <div class="text">
+                                <h3 class="heading"><a href="{% url 'blog'%}">Awesome stuff</a></h3>
+                                <div class="meta">
+                                    <div><a href="{% url 'blog'%}"><span class="icon-calendar"></span>  2021</a></div>
+                                    <div><a href="{% url 'blog'%}"><span class="icon-person"></span> Alpha</a></div>
+                                    <div><a href="{% url 'blog'%}"><span class="icon-chat"></span> 12</a></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="block-21 d-flex mb-4">
+                            <figure class="mr-3">
+                                <img src="{% static 'home/images/blog_3.jpg' %}" alt="" class="img-fluid">
+                            </figure>
+                            <div class="text">
+                                <h3 class="heading"><a href="{% url 'blog'%}">Best business in town</a></h3>
+                                <div class="meta">
+                                    <div><a href="{% url 'blog'%}"><span class="icon-calendar"></span> 2020</a></div>
+                                    <div><a href="{% url 'blog'%}"><span class="icon-person"></span> Alpha</a></div>
+                                    <div><a href="{% url 'blog'%}"><span class="icon-chat"></span> 5</a></div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="block-21 d-flex mb-4">
-                        <figure class="mr-3">
-                            <img src="images/img_2.jpg" alt="" class="img-fluid">
-                        </figure>
-                        <div class="text">
-                            <h3 class="heading"><a href="#">Awesome events</a></h3>
-                            <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span>  2020</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Alpha</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                            </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="block-23">
+                            <h3 class="heading-section">Contact Info</h3>
+                            <ul>
+                                <li><span class="icon icon-map-marker"></span><span class="text">Limuru, Kiambu Kenya</span></li>
+                                <li><a href="{% url 'contact'%}"><span class="icon icon-phone"></span><span class="text">+254 70550 2262</span></a></li>
+                                <li><a href="{% url 'contact'%}"><span class="icon icon-envelope"></span><span class="text">alphathefuture1@gmail.com</span></a></li>
+                                <li><span class="icon icon-clock-o"></span><span class="text">Monday &mdash; Friday 8:00am - 5:00pm</span></li>
+                            </ul>
                         </div>
                     </div>
 
-                    <div class="block-21 d-flex mb-4">
-                        <figure class="mr-3">
-                            <img src="images/img_3.jpg" alt="" class="img-fluid">
-                        </figure>
-                        <div class="text">
-                            <h3 class="heading"><a href="#">Best business in town</a></h3>
-                            <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span> 2020</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Alpha</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="block-23">
-                        <h3 class="heading-section">Contact Info</h3>
-                        <ul>
-                            <li><span class="icon icon-map-marker"></span><span class="text">Limuru, Kiambu Kenya</span></li>
-                            <li><a href="#"><span class="icon icon-phone"></span><span class="text">+254 70550 2262</span></a></li>
-                            <li><a href="#"><span class="icon icon-envelope"></span><span class="text">alphathefuture1@gmail.com</span></a></li>
-                            <li><span class="icon icon-clock-o"></span><span class="text">Monday &mdash; Friday 8:00am - 5:00pm</span></li>
-                        </ul>
-                    </div>
-                </div>
 
-
-            </div>
-            <div class="row pt-5">
-                <div class="col-md-12 text-left">
-                    <p>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script> All rights reserved | This web application is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank" class="text-primary"> Alpha with help from Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
+                </div>
+                <div class="row pt-5">
+                    <div class="col-md-12 text-left">
+                        <p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script> All rights reserved | This web application is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank" class="text-primary"> Dennis Munyu (Alpha) </a>                            with help from Colorlib
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
 
-    <!-- loader -->
-    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+        <!-- loader -->
+        <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 
 
-    <script src="{% static 'home/js/jquery.min.js' %}"></script>
-    <script src="{% static 'home/js/jquery-migrate-3.0.1.min.js' %}"></script>
-    <script src="{% static 'home/js/popper.min.js' %}"></script>
-    <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'home/js/jquery.easing.1.3.js' %}"></script>
-    <script src="{% static 'home/js/jquery.waypoints.min.js' %}"></script>
-    <script src="{% static 'home/js/jquery.stellar.min.js' %}"></script>
-    <script src="{% static 'home/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'home/js/jquery.magnific-popup.min.js' %}"></script>
-    <script src="{% static 'home/js/bootstrap-datepicker.js' %}"></script>
+        <script src="{% static 'home/js/jquery.min.js' %}"></script>
+        <script src="{% static 'home/js/jquery-migrate-3.0.1.min.js' %}"></script>
+        <script src="{% static 'home/js/popper.min.js' %}"></script>
+        <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'home/js/jquery.easing.1.3.js' %}"></script>
+        <script src="{% static 'home/js/jquery.waypoints.min.js' %}"></script>
+        <script src="{% static 'home/js/jquery.stellar.min.js' %}"></script>
+        <script src="{% static 'home/js/owl.carousel.min.js' %}"></script>
+        <script src="{% static 'home/js/jquery.magnific-popup.min.js' %}"></script>
+        <script src="{% static 'home/js/bootstrap-datepicker.js' %}"></script>
 
-    <script src="{% static 'home/js/aos.js' %}"></script>
-    <script src="{% static 'home/js/jquery.animateNumber.min.js' %}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-    <script src="{% static 'home/js/google-map.js' %}"></script>
-    <script src="{% static 'home/js/main.js' %}"></script>
+        <script src="{% static 'home/js/aos.js' %}"></script>
+        <script src="{% static 'home/js/jquery.animateNumber.min.js' %}"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+        <script src="{% static 'home/js/google-map.js' %}"></script>
+        <script src="{% static 'home/js/main.js' %}"></script>
 
 </body>
 

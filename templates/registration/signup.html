@@ -46,31 +46,10 @@
             <div class="container">
                 <!-- menu -->
                 <ul class="main-menu">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Women</a></li>
-                    <li><a href="#">Men</a></li>
-                    <li><a href="#">Jewelry
-						<span class="new">New</span>
-					</a></li>
-                    <li><a href="#">Shoes</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Sneakers</a></li>
-                            <li><a href="#">Sandals</a></li>
-                            <li><a href="#">Formal Shoes</a></li>
-                            <li><a href="#">Boots</a></li>
-                            <li><a href="#">Flip Flops</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Pages</a>
-                        <ul class="sub-menu">
-                            <li><a href="./product.html">Product Page</a></li>
-                            <li><a href="./category.html">Category Page</a></li>
-                            <li><a href="./cart.html">Cart Page</a></li>
-                            <li><a href="./checkout.html">Checkout Page</a></li>
-                            <li><a href="./contact.html">Contact Page</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="{% url 'blog' %}">Home</a></li>
                     <li><a href="{% url 'blog' %}">Blog</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a href="{% url 'amaizing' %}">Wow That's Amaizing</a></li>
                 </ul>
             </div>
         </nav>
@@ -82,11 +61,11 @@
                 <h2>Choose below the account you would like to create with us</h2>
                 <div class="col-lg-6 contact-info">
                     <p>My Personal Account</p>
-                    <button class="site-btn"><a href="{% url 'justuser_signup' %}">User</a></button>
+                    <a href="{% url 'justuser_signup' %}"><button class="site-btn">User</button></a>
                 </div>
                 <div class="col-lg-6 contact-info">
                     <p>My Business Account</p>
-                    <button class="site-btn"><a href="{% url 'business_signup' %}">Business</a></button>
+                    <a href="{% url 'business_signup' %}"><button class="site-btn">Business</button></a>
                 </div>
             </div>
         </div>
@@ -111,7 +90,7 @@
                         <ul>
 
                             <li><a href="/">Home</a></li>
-                            <li><a href="#about">About Us</a></li>
+                            <li><a href="/">About Us</a></li>
                             <li><a href="{% url 'blog' %}">Blog</a></li>
                         </ul>
 
@@ -126,7 +105,7 @@
                                 <div class="lp-content">
                                     <h6>Who is Alpha co-founder</h6>
                                     <span>2020</span>
-                                    <a href="#" class="readmore">Read More</a>
+                                    <a href="{% url 'blog'%}" class="readmore">Read More</a>
                                 </div>
                             </div>
                             <div class="lp-item">
@@ -134,7 +113,7 @@
                                 <div class="lp-content">
                                     <h6>trends this year</h6>
                                     <span>2020</span>
-                                    <a href="#" class="readmore">Read More</a>
+                                    <a href="{% url 'blog'%}" class="readmore">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -166,17 +145,17 @@
         <div class="social-links-warp">
             <div class="container">
                 <div class="social-links">
-                    <a href="" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
-                    <a href="" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
-                    <a href="" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
-                    <a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>
+                    <a href="https://www.instagram.com/munyudennis_/" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
+                    <a href="https://www.facebook.com/deno.delphina" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
+                    <a href="https://www.twitter.com/DennisMunyu" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
+                    <!--<a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>-->
                 </div>
 
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 <p class="text-white text-center mt-5">Copyright &copy;
                     <script>
                         document.write(new Date().getFullYear());
-                    </script> All rights reserved | This web applications is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank">Alpha </a>with help from Colorlib</p>
+                    </script> All rights reserved | This web applications is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank">Dennis Munyu (Alpha) </a>with help from Colorlib</p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
             </div>

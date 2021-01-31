@@ -74,7 +74,7 @@
                                 <h3><a href="{% url 'profile' %}">{{user.username}}</a></h3>
                                 {% else%}
                                 <i class="flaticon-profile"></i>
-                                <a href="{% url 'login' %}"><button class="site-btn">Sign In</button></a> or <a href="{% url 'signup'%}"><button class="site-btn">Create Account</button></a> {% endif%}
+                                <button class="site-btn"><a href="{% url 'login' %}" >Sign In</a></button> or <button class="site-btn"><a href="{% url 'signup'%}">Create Account</a></button> {% endif%}
                             </div>
 
                         </div>
@@ -110,23 +110,10 @@
                     {% endif%}
 
                     <li><a href="{% url 'blog' %}">Blog</a></li>
-                    <li><a href="{% url 'contact' %}">contact</a></li>
-                    <li><a href="{% url 'amaizing' %}">Wow That's Amaizing</a></li>
-                    {% if user.is_superuser%}
-                    <li><a href="{% url 'create-amaizing' %}">Amaizing Create New</a></li>
-                    {% endif%} {% if user.is_authenticated %}
-                    <li><a href="{% url 'mylocation' user.profile.location %}">My Location</a></li>
+                    <li><a href="{% url 'contact' %}">Contact us</a></li>
+                    {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">Logout</a></li>
-                    {% if user.is_business %}
-                    <li><a href="#">Business Home Page</a>
-                        <ul class="sub-menu">
-                            <li><a href="{% url 'sb-product' user.username %}">Product</a></li>
-                            <li><a href="{% url 'sb-service' user.username %}">Service</a></li>
-                            <li><a href="{% url 'sb-food' user.username %}">Food and Drinks</a></li>
-
-                        </ul>
-                    </li>
-                    {% endif%}{% endif%}
+                    {% endif%}
                 </ul>
 
             </div>
@@ -144,20 +131,14 @@
                     <div class="row">
 
                         <div class="col-xl-6 col-lg-7 text-white">
-                            {% if user.is_authenticated %}
-                            <span>Tell us </span>
-                            <h2>How you feel</h2>
 
-                            <p> If You feel un satisfied just contact us and we will be more than willing to help
-                            </p>
-                            <a href="{% url 'contact'%}" class="site-btn sb-line">Contact Us</a> {% else%}
-                            <span>Take Your Business</span>
-                            <h2>To the next level</h2>
+                            <span>See what in </span>
+                            <h2>{{location}}</h2>
 
-                            <p> Own your own url at an affordable price
+                            <p> Check out what businesses from your location offer's
                             </p>
-                            <a href="#all" class="site-btn sb-line">DISCOVER</a>
-                            <a href="{% url 'signup'%}" class="site-btn sb-white">Register Here</a> {% endif%}
+                            <a href="{% url 'profile'%}" class="site-btn sb-line">CHANGE LOCATION</a>
+
                         </div>
 
                     </div>
@@ -170,37 +151,7 @@
 
                 </div>
             </div>
-            <div class="hs-item set-bg" data-setbg="{% static 'hm/img/bg-2.jpg' %}">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-7 text-white">
-                            <span>New Arrivals</span>
-                            <h2>New Products</h2>
-                            <p>
-                            </p>
-                            <a href="#all" class="site-btn sb-line">DISCOVER</a>
 
-                        </div>
-                    </div>
-                    <div class="offer-card text-white">
-                        <span>from</span>
-                        <h4>ALPHA</h4>
-                        <p>The Future</p>
-                    </div>
-                </div>
-            </div>
-            <div class="hs-item set-bg" data-setbg="{% static 'hm/img/bg3.jpg' %}">
-                <div class="container">
-                    <div class="row">
-
-                    </div>
-                    <div class="offer-card text-white">
-                        <span>from</span>
-                        <h4>ALPHA</h4>
-                        <p>The Future</p>
-                    </div>
-                </div>
-            </div>
 
         </div>
         <div class="container">
@@ -254,7 +205,9 @@
             </div>
 
             <div class="product-slider owl-carousel">
-                {% for product in products %}
+                {% for product in products %} {% if location in product.author.profile.location %} {% if product == None%}
+                <p>true</p>
+                {% endif%}
                 <div class="product-item">
                     <div class="pi-pic">
                         {% if product.new == True %}
@@ -276,8 +229,7 @@
                         {% endif %}
                         <p>{{product.product_name}}</p>
                     </div>
-                </div>
-                {% endfor%}
+                </div>{% endif %} {% endfor%}
 
             </div>
         </div>
@@ -293,7 +245,7 @@
 
 
 
-                {% for service in services %}
+                {% for service in services %} {% if location in service.author.profile.location %}
                 <div class="product-item">
                     <div class="pi-pic">
                         {% if service.new == True %}
@@ -316,8 +268,7 @@
 
                         <p>{{service.service_name}}</p>
                     </div>
-                </div>
-                {% endfor%}
+                </div>{% endif%} {% endfor%}
             </div>
         </div>
     </section>
@@ -330,7 +281,7 @@
 
             <div class="product-slider owl-carousel">
 
-                {% for restaurant in restaurants %}
+                {% for restaurant in restaurants %}{% if location in restaurant.author.profile.location %}
                 <div class="product-item">
                     <div class="pi-pic">
                         {% if restaurant.offer == True %}
@@ -350,8 +301,7 @@
                         {% endif%}
                         <p>{{restaurant.food_name}}</p>
                     </div>
-                </div>
-                {% endfor %}
+                </div>{% endif %} {% endfor %}
 
 
             </div>
@@ -366,7 +316,7 @@
             </div>
 
             <div class="product-slider owl-carousel">
-                {% for service in services %}
+                {% for service in services %}{% if location in service.author.profile.location %}
                 <div class="product-item">
                     <div class="pi-pic">
                         {% if service.new == True %}
@@ -389,7 +339,7 @@
                         <p>{{service.service_name}}</p>
                     </div>
                 </div>
-                {% endfor%} {% for product in products %}
+                {% endif%} {% endfor%} {% for product in products %}{% if location in product.author.profile.location %}
                 <div class="product-item">
                     <div class="pi-pic">
                         {% if product.new == True %}
@@ -412,7 +362,7 @@
                         <p>{{product.product_name}}</p>
                     </div>
                 </div>
-                {% endfor%} {% for restaurant in restaurants %}
+                {% endif%} {% endfor%} {% for restaurant in restaurants %}{% if location in restaurant.author.profile.location %}
                 <div class="product-item">
                     <div class="pi-pic">
                         {% if restaurant.offer == True %}
@@ -432,8 +382,7 @@
                         {% endif %}
                         <p>{{restaurant.food_name}}</p>
                     </div>
-                </div>
-                {% endfor %}
+                </div>{% endif%} {% endfor %}
             </div>
         </div>
     </section>
@@ -474,7 +423,7 @@
             <div class="product-slider owl-carousel">
 
                 <!--start-->
-                {% for product in products %} {% if product.new == True %}
+                {% for product in products %} {% if location in product.author.profile.location %}{% if product.new == True %}
                 <div class="product-item">
                     <div class="pi-pic">
                         {% if product.new == True %}
@@ -495,7 +444,7 @@
                         <p>{{product.product_name}}</p>
                     </div>
                 </div>
-                {% endif %} {% endfor %}
+                {% endif %} {% endif%}{% endfor %}
                 <!--end-->
 
             </div>
@@ -510,7 +459,7 @@
             <div class="product-slider owl-carousel">
 
                 <!--start-->
-                {% for service in services%}
+                {% for service in services%}{% if location in service.author.profile.location %}
                 <div class="product-item">
                     <div class="pi-pic">
                         {% if service.new == True %}
@@ -531,7 +480,7 @@
                         <p>{{service.service_name}}</p>
                     </div>
                 </div>
-                {% endfor %}
+                {% endif%} {% endfor %}
                 <!--end-->
 
             </div>
@@ -546,7 +495,7 @@
             </div>
 
             <div class="product-slider owl-carousel">
-                {% for service in services %}{% if service.offer == True %}
+                {% for service in services %}{% if location in service.author.profile.location %}{% if service.offer == True %}
                 <div class="product-item">
                     <div class="pi-pic">
                         {% if service.offer == True %}
@@ -567,7 +516,7 @@
                         <p>{{service.service_name}}</p>
                     </div>
                 </div>
-                {% endif%} {% endfor%} {% for product in products %}{% if product.offer == True %}
+                {% endif%} {% endif%}{% endfor%} {% for product in products %}{% if location in product.author.profile.location %}{% if product.offer == True %}
                 <div class="product-item">
                     <div class="pi-pic">
                         {% if product.new == True %}
@@ -590,7 +539,7 @@
                         <p>{{product.product_name}}</p>
                     </div>
                 </div>
-                {% endif%} {% endfor%} {% for restaurant in restaurants %}{% if restaurant.offer == True %}
+                {% endif%} {% endif%}{% endfor%} {% for restaurant in restaurants %}{% if location in restaurant.author.profile.location %}{% if restaurant.offer == True %}
                 <div class="product-item">
                     <div class="pi-pic">
                         {% if restaurant.offer == True %}
@@ -611,7 +560,7 @@
                         <p>{{restaurant.food_name}}</p>
                     </div>
                 </div>
-                {% endif%} {% endfor %}
+                {% endif%}{% endif%}{% endfor %}
             </div>
         </div>
     </section>
@@ -685,7 +634,7 @@
                                 <div class="lp-content">
                                     <h6>Who is Alpha co-founder</h6>
                                     <span>2020</span>
-                                    <a href="{% url 'blog'%}" class="readmore">Read More</a>
+                                    <a href="#" class="readmore">Read More</a>
                                 </div>
                             </div>
                             <div class="lp-item">
@@ -693,7 +642,7 @@
                                 <div class="lp-content">
                                     <h6>trends this year</h6>
                                     <span>2020</span>
-                                    <a href="{% url 'blog'%}" class="readmore">Read More</a>
+                                    <a href="#" class="readmore">Read More</a>
                                 </div>
                             </div>
                         </div>

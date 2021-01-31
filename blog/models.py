@@ -39,12 +39,52 @@ class BlogComment(models.Model):
     def __str__(self):
         return self.message
 
-class AllBlogComment(models.Model):
+
+
+class Amaizing(models.Model):
+    the_photo = models.ImageField(upload_to='blog_pics')
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    date_posted = models.DateTimeField(default=timezone.now)#set's the time the post was posted
+    author = models.ForeignKey(User,related_name='posts', on_delete=models.CASCADE)#ON DELETE meaning if a user is deleted so does the posts of the user
+    #likes = models.ManyToManyField(User, related_name='blogpost_like')
+    link = models.CharField(max_length=200, default='#')
+    hashtag = models.CharField(max_length=200, default='#')
+
+    #def number_of_likes(self):
+    #    return self.likes.count()
+    def __str__(self):
+        return self.title
+    def get_pk(self):
+        p_k = {"pk" : self.pk}
+        return p_k
+    def get_absolute_url(self):
+        p_k = self.get_pk()
+        return reverse('amaizing')
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.the_photo.path)
+        if img.height > 300 and img.width > 300:
+            output_size = (1024, 764)
+            img.thumbnail(output_size)
+            img.save(self.the_photo.path)
+   
+
+class AnonyComment(models.Model):
+    My_name = models.CharField(max_length=150, default='')
+    author = models.CharField(max_length=150)
     code = models.IntegerField()
     message = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.message
+
+
+
+
+
+
+
         
     
 

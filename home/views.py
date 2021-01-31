@@ -7,6 +7,20 @@ from business.models import Businessuser
 from business.models import User
 from .form import ContantForm
 from django.contrib import messages
+from business.models import Profile
+
+from django.template import RequestContext
+
+def error_404(request, exception):
+    data ={}
+    return render(request, '404.html', data)
+
+def error_500(request):
+    data = {}
+    return render(request, '500.html', data)
+
+
+
 
 
 def home(request, username=None):
@@ -61,8 +75,16 @@ def search(request):
         context={}
     return render(request, 'home/search.html', context)
 
-def terms(request):
-    return render(request, 'bshome/termsandconditions.html')
+def mylocation(request, location=None):
+  
+    context={
+        'products': Product.objects.all().order_by('-date_posted'),
+        'services':Service.objects.all().order_by('-date_posted'),
+        'restaurants':Restaurant.objects.all().order_by('-date_posted'),
+        'location':location
+        
+    }
+    return render(request, 'home/location.html', context) 
 
 
     

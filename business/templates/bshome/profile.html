@@ -8,7 +8,7 @@
     <meta name="keywords" content="the future">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon .heic-->
-    <link href="{% static 'hm/img/favicon1.heic' %}" rel="shortcut icon" />
+    <link href="{% static 'hm/img/favicon2.png' %}" rel="shortcut icon" />
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
@@ -72,7 +72,26 @@
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'blog'%}">Blog</a></li>
                     <li><a href="{% url 'contact' %}">Contact Us</a></li>
-                    {% if user.is_authenticated %}
+                    {% if user.is_authenticated %} {% if user.is_business %}
+                    <li><a href="#">Add Items</a>
+                        <ul class="sub-menu">
+                            <li><a href="{% url 'product-create' %}">Add Product</a></li>
+                            <li><a href="{% url 'service-create' %}">Add service</a></li>
+                            <li><a href="{% url 'restaurant-create' %}">Add food and drinks</a></li>
+
+                        </ul>
+                    </li>
+
+                    {% endif%} {% endif%} {% if user.is_business %}
+                    <li><a href="#">Business Home Page</a>
+                        <ul class="sub-menu">
+                            <li><a href="{% url 'sb-product' user.username %}">Product</a></li>
+                            <li><a href="{% url 'sb-service' user.username %}">Service</a></li>
+                            <li><a href="{% url 'sb-food' user.username %}">Food and Drinks</a></li>
+
+                        </ul>
+                    </li>
+                    {% endif%} {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% endif%}
                 </ul>
@@ -87,13 +106,23 @@
                 <div class="col-lg-6 contact-info">
                     {% if user.is_business %}
                     <h2>Update My Business Profile Info</h2>
-                    <small>The Username should be the name of the business</small>
-                    <small>The profile_photo should be  of the busines or business owner</small> {% else%}
+                    <small>1:The Username should be the name of the business<br></small>
+                    <small>2:The profile_photo should be  of the busines or business owner<br></small>
+                    <small>3:You don't have to update everything <br></small>
+                    <small>4:Just update the field or fields you want changed and click on the update button<br></small>
+                    <small>5:Change instagram,twitter,facebook to the name you call yourself on these handle's<br></small>
+                    <small>6:Location should be the location of the business eg Ruaka,Kiambu,Kisumu,Kasarani,Kilifi etc so that customers can locate you easly</small>
+
+                    <button class="site-btn"><a href="{% url 'update-set-business' user.username %}" >Change what my business offers</a></button> {% else%}
                     <h2>Update Profile Info</h2>
-                    {% endif%}
-                    <small>You don't have to update everything 
-                        Just update the field or fields you want changed and
-                        click on the update button</small>
+                    <small>1:You don't have to update everything <br></small>
+                    <small>2:Just update the field or fields you want changed and click on the update button<br></small>
+                    <small>3:Change instagram,twitter,facebook to the name you call yourself on these handle's<br>  </small>
+                    <small>4:Set your location as eg Kisumu,Kilifi,Limuru,Ruaka etc so that you can get products, services and food and drinks from business your location</small> <br>
+                    <button class="site-btn"><a href="{% url 'mylocation' user.profile.location %}" >Businesses In my Location </a></button> {% endif%}
+
+
+
 
                     <form class="contact-form" method="POST" enctype="multipart/form-data">
                         {% csrf_token %} {{ u_form|crispy }} {{ p_form|crispy }}
@@ -179,17 +208,17 @@
         <div class="social-links-warp">
             <div class="container">
                 <div class="social-links">
-                    <a href="" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
-                    <a href="" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
-                    <a href="" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
-                    <a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>
+                    <a href="https://www.instagram.com/munyudennis_/" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
+                    <a href="https://www.facebook.com/deno.delphina" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
+                    <a href="https://www.twitter.com/DennisMunyu" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
+                    <!--<a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>-->
                 </div>
 
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 <p class="text-white text-center mt-5">Copyright &copy;
                     <script>
                         document.write(new Date().getFullYear());
-                    </script> All rights reserved | This web applications is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank">Alpha </a>with help from Colorlib</p>
+                    </script> All rights reserved | This web applications is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank">Dennis Munyu (Alpha) </a>with help from Colorlib</p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
             </div>

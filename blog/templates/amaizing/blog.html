@@ -56,9 +56,9 @@
                     <nav class="nav-menu d-none d-lg-block">
                         <ul>
                             <li><a href="/">Home</a></li>
-                            <li class="active"><a href="{% url 'blog' %}">Blog</a></li>
+                            <li><a href="{% url 'blog' %}">Blog</a></li>
+                            <li class="active"><a href="{% url 'amaizing' %}">Wow That's Amaizing</a></li>
                             <li><a href="{% url 'contact' %}">Contact Us</a></li>
-                            <li><a href="{% url 'amaizing' %}">Wow That's Amaizing</a></li>
                             {% if user.is_authenticated %}
                             <li><a href="{% url 'create-blog' %}">Create Blog</a></li>
                             <li><a href="{% url 'logout' %}">Logout</a></li>
@@ -86,9 +86,9 @@
 
                 <ol>
                     <li><a href="/">Home</a></li>
-                    <li>Blog</li>
+                    <li>Wow That's Amaizing</li>
                 </ol>
-                <h2>Blog</h2>
+                <h2>Wow That's Amaizing</h2>
 
 
             </div>
@@ -112,14 +112,14 @@
                             </div>
 
                             <h2 class="entry-title">
-                                <a href="{% url 'blog-single' blog.id %}">{{blog.title}}</a>
+                                <a href="{% url 'amaizing-single' blog.id %}">{{blog.title}}</a>
                             </h2>
 
                             <div class="entry-meta">
                                 <ul>
-                                    <li class="d-flex align-items-center"><i class="icofont-user"></i> <a href="{% url 'blog-single' blog.id %}">{{blog.author}}</a></li>
-                                    <li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> <a href="{% url 'blog-single' blog.id %}"><time datetime="2020-01-01">{{ blog.date_posted }}</time></a></li>
-                                    <li class="d-flex align-items-center"><i class="icofont-comment"></i> <a href="{% url 'blog-single' blog.id%}">Comments</a></li>
+                                    <li class="d-flex align-items-center"><i class="icofont-user"></i> <a href="{% url 'amaizing-single' blog.id %}">{{blog.author}}</a></li>
+                                    <li class="d-flex align-items-center"><i class="icofont-wall-clock"></i> <a href="{% url 'amaizing-single' blog.id %}"><time datetime="2020-01-01">{{ blog.date_posted }}</time></a></li>
+                                    <li class="d-flex align-items-center"><i class="icofont-comment"></i> <a href="{% url 'amaizing-single' blog.id%}">Comments</a></li>
                                 </ul>
                             </div>
 
@@ -128,7 +128,7 @@
                                     {{blog.content}}
                                 </p>
                                 <div class="read-more">
-                                    <a href="{% url 'blog-single' blog.id %}">Read More</a>
+                                    <a href="{% url 'amaizing-single' blog.id %}">Read More</a>
                                 </div>
                             </div>
 

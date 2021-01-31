@@ -12,7 +12,7 @@ from django.views.generic import (
 )
 
 from .models import User,Businessuser
-
+from django.db.utils import IntegrityError
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth import authenticate, login
 from .decorators import business_required
@@ -28,7 +28,7 @@ from business.form import (
     
 )
 from .decorators import business_required,justuser_required
-
+from home.models import BusinessActivator
 
 
 
@@ -48,7 +48,9 @@ class BusinessSignUpView(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('profile')
+        p=BusinessActivator.objects.create(bussiness=user,service=True, product=True, food=True)
+        p.save()
+        return redirect('set-business', user.username)
 
 
 
@@ -56,29 +58,35 @@ class BusinessSignUpView(CreateView):
 @business_required
 def setbusiness(request, username=None):
     user = get_object_or_404(User, username=username)
-    if request.method == 'POST':
-        form = CreateBusinessuser(request.POST, None)
-        if form.is_valid():
-            obj = form.save( commit = False)
-            obj.author = request.user
-            obj.code = username
-            obj.save()
+    try:
+        if request.method == 'POST':
+            form = CreateBusinessuser(request.POST, None)
+            if form.is_valid():
+                obj = form.save( commit = False)
+                obj.author = request.user
+                obj.code = username
+                obj.save()
+                form = CreateBusinessuser()
+                messages.success(request, f'Your account have been successfully created and what your business does')
+                return redirect('home')
+                        
+        else:
             form = CreateBusinessuser()
-            redirect('home')
-                    
-    else:
-        form = CreateBusinessuser()
-    context = {
-        'form':form
-    }
-    return render(request, 'home/businessuser_form.html', context)
+        context = {
+            'form':form
+        }
+        return render(request, 'home/businessuser_form.html', context)
+    except IntegrityError:
+        
+        return redirect('update-set-business',username)
 @login_required
 @business_required
 def updatesetbusiness(request, code=None):
     obj = get_object_or_404(Businessuser, code=code)
     form = CreateBusinessuser(request.POST or None, instance = obj)
-    if form.is_valid():
+    if form.is_valid():     
         form.save()
+        messages.success(request, f'You have successfully updated')
         return redirect('home')
     context={
         'form':form
@@ -119,8 +127,7 @@ def profile(request):
         'p_form' : p_form
     }
     return render(request, 'bshome/profile.html', context)
-
-
-
+def terms(request):
+    return render(request, 'bshome/termsandconditions.html')
 
 

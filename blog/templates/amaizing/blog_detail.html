@@ -51,8 +51,8 @@
                         <ul>
                             <li><a href="/">Home</a></li>
                             <li><a href="{% url 'blog' %}">Blog</a></li>
-                            <li><a href="{% url 'amaizing' %}">Wow That's Amaizing</a></li>
                             <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                            <li class="active"><a href="{% url 'amaizing' %}">Wow That's Amaizing</a></li>
                             {% if user.is_authenticated %}
                             <li><a href="{% url 'logout' %}">Logout</a></li>
                             {% else%}
@@ -63,7 +63,7 @@
                     </nav>
                     <!-- .nav-menu -->
 
-                    <a href="{% url 'blog-single' blog.id%}" class="get-started-btn scrollto">Refresh</a>
+                    <a href="{% url 'amaizing-single' blog.id%}" class="get-started-btn scrollto">Refresh</a>
                 </div>
             </div>
 
@@ -77,10 +77,10 @@
 
                 <ol>
                     <li><a href="/">Home</a></li>
-                    <li><a href="{% url 'blog' %}">Blog</a></li>
-                    <li>Blog Single</li>
+                    <li><a href="{% url 'amaizing' %}">Wow That's Amaizing All</a></li>
+                    <li>Wow That's Amaizing</li>
                 </ol>
-                <h2>Blog Single</h2>
+                <h2>Wow That's Amaizing</h2>
 
             </div>
         </section>
@@ -115,6 +115,7 @@
                             </div>
 
                             <div class="entry-content">
+                                <h6 style="color: purple;">{{blog.hashtag}}</h6>
                                 <p>
                                     {{blog.content}}.
                                 </p>
@@ -122,7 +123,7 @@
                                 <blockquote>
                                     <i class="icofont-quote-left quote-left"></i>
                                     <p>
-                                        ALPHA-The Future
+                                        Wow! That's Amaizing
                                     </p>
                                     <i class="las la-quote-right quote-right"></i>
                                     <i class="icofont-quote-right quote-right"></i>
@@ -139,9 +140,11 @@
                             <div class="entry-footer clearfix">
                                 <div class="float-left">
                                     {% if blog.author == user %}
-                                    <a href="{% url 'blog-update' blog.id %}" class="get-started-btn scrollto">Update</a>
-                                    <a href="{% url 'blog-delete' blog.id %}" class="get-started-btn scrollto">Delete</a> {% endif%}
-                                    <a href="#comment" class="get-started-btn scrollto">Comment</a>
+                                    <a href="{% url 'amaizing-update' blog.id %}" class="get-started-btn scrollto">Update</a>
+                                    <a href="{% url 'amaizing-delete' blog.id %}" class="get-started-btn scrollto">Delete</a> {% endif%} {% if user.is_authenticated %}
+                                    <a href="#comment" class="get-started-btn scrollto">Comment</a>{% else%}
+                                    <a href="#comment1" class="get-started-btn scrollto">Comment</a>{% endif%} {% if blog.link != '#' %}
+                                    <a href="{{blog.link}}" class="get-started-btn scrollto">For More Info Click Here</a> {% endif%}
                                 </div>
 
 
@@ -177,11 +180,12 @@
                                 <img src="{{comment.author.profile.profile_photo.url}}" class="comment-img  float-left" alt="">
                                 <h5><a href="">{{comment.author}}</a>{% if comment.author == user %} <a href="{% url 'bcomment-delete' comment.id %}" class="reply"><i class="icofont-reply"></i>Delete</a> {% endif %}</h5>
                                 <time datetime="2020-01-01">{{ comment.date_posted }}</time>
+
                                 <p>
                                     {{comment.message}}
 
                                 </p>
-
+                                <h6 style="color: purple;">{{blog.hashtag}}</h6>
                                 <div class="float-right share">
                                     {% if comment.author.profile.twitter != '#'%}
                                     <a href="https://www.twitter.com/{{comment.author.profile.twitter}}" title="Holla me on Twitter"><i class="icofont-twitter"></i><span> @{{comment.author.profile.twitter}}</span></a>{% endif%}
@@ -193,9 +197,25 @@
                                     <a href="https://www.instagram.com/{{comment.author.profile.instagram}}" title="Holla me on Instagram"><i class="icofont-instagram"></i><span> @{{comment.author.profile.instagram}}</span></a>{% endif%}
                                 </div>
                             </div>
+                            {% endfor %} {% for comment in comnts%}
+                            <div id="comment-2" class="comment clearfix">
+
+                                <!--<img src="" class="comment-img  float-left" alt="">-->
+                                <img src="{% static 'home/default.jpg'%}" class="comment-img  float-left" alt="">
+                                <h5><a href="">{{comment.My_name}}</a>{% if comment.author == user.username %} <a href="{% url 'anycomment-delete' comment.id %}" class="reply"><i class="icofont-reply"></i>Delete</a> {% endif %}</h5>
+                                <time datetime="2020-01-01">{{ comment.date_posted }}</time>
+
+                                <p>
+                                    {{comment.message}}
+
+                                </p>
+                                <h6 style="color: purple;">{{blog.hashtag}}</h6>
+
+
+                            </div>
                             {% endfor %} {% if user.is_authenticated %}
                             <div class="reply-form" id="comment">
-                                <h4>Leave a Reply</h4>
+                                <h4>Leave a Comment</h4>
 
                                 <form method="POST">
                                     {% csrf_token %}
@@ -212,8 +232,23 @@
 
                             </div>
                             {%else%}
-                            <h4 class="comments-count">Please login to comment</h4>
-                            <a href="{% url 'login' %}" class="get-started-btn scrollto">click here to login</a> {% endif%}
+                            <div class="reply-form" id="comment1">
+                                <h4>Leave a Comment</h4>
+
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-6 form-group">
+                                            {{ form|crispy }}
+                                            <button type="submit" class="btn btn-primary">Post Comment</button>
+                                        </div>
+
+
+                                    </div>
+
+                                </form>
+
+                            </div> {% endif%}
 
                         </div>
                         <!-- End blog comments -->

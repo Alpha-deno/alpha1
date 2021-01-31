@@ -77,14 +77,21 @@
                     <form class="contact-form" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="next" value="{{ next }}"> {{ form.username|as_crispy_field }} {{ form.password|as_crispy_field }}
-                        <button type="submit" class="site-btn">Log In</button>
+                        <button type="submit" class="site-btn">Login</button><br>
+
                     </form>
+                    <div class="border-top pt-3">
+                        <small class="text-muted ml-2">
+                        <a href="{% url 'password_reset' %}" >Forgot Password?</a>
+                     </small>
+                        <small class="text-muted">
+                        Need An Account? <a class="ml-2" href="{% url 'signup' %}">Sign Up Now</a>
+                      </small>
+                    </div>
                 </div>
-                <div class="border-top pt-3">
-                    <small class="text-muted">
-                                Need An Account? <a class="ml-2" href="{% url 'signup' %}">Sign Up Now</a>
-                              </small>
-                </div>
+
+
+
             </div>
         </div>
     </section>
@@ -172,7 +179,7 @@
                 <p class="text-white text-center mt-5">Copyright &copy;
                     <script>
                         document.write(new Date().getFullYear());
-                    </script> All rights reserved | This web applications is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank">Alpha </a>with help from Colorlib</p>
+                    </script> All rights reserved | This web applications is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank">Dennis Munyu (Alpha) </a>with help from Colorlib</p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
             </div>

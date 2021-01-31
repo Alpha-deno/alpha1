@@ -5,7 +5,7 @@
     <title>Alpha</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
-    <link href="{% static 'hm/img/favicon1.heic' %}" rel="shortcut icon" />
+    <link href="{% static 'hm/img/favicon2.png' %}" rel="shortcut icon" />
 
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'home/css/open-iconic-bootstrap.min.css' %}">
@@ -45,6 +45,10 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
                     <li class="nav-item"><a href="{% url 'blog' %}" class="nav-link">Blog</a></li>
+                    <li class="nav-item"><a href="{% url 'amaizing' %}">Wow That's Amaizing</a></li>
+                    {% if user.is_superuser%}
+                    <li class="nav-item"><a href="{% url 'create-amaizing' %}">Amaizing Create New</a></li>
+                    {% endif%}
                     <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact Us</a></li>
                     {% if user.is_authenticated %}
                     <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Logout</a></li>
@@ -77,15 +81,16 @@
         <div class="container">
 
             <div class="row">
-
+                {% for bs in bsuser%} {% if bs.product == True%}
                 <div class="col-md-8">
                     <h2 class="mb-3">{{usrname}}</h2>
 
                     <p><img src="{{usr.profile.profile_photo.url}}" alt="" class="img-fluid"></p>
-                    {% for bs in bsuser%}
+
                     <h2 class="mb-3 mt-5">{{bs.about_business}}</h2>
-                    {% endfor%}
-                    <small>located: {{usr.profile.location}}</small>
+
+                    {% if usr.profile.location != 'update me' %}
+                    <h3 class="mb-3 mt-5">Located: {{usr.profile.location}}</h3><br> {% endif%}
                     <div class="tag-widget post-tag-container mb-5 mt-5">
                         <div class="tagcloud">
                             <small>Click here to place order</small>
@@ -93,6 +98,7 @@
 
 
                         </div>
+
                     </div>
 
                     <!--if statement-->
@@ -101,6 +107,7 @@
                             <div class="row mb-5">
                                 <div class="col-md-7 section-heading">
                                     <!--if statement-->
+                                    <h4>Here is a guide of all the products this business offers</h4>
                                     <span class="subheading-sm">products</span>
                                     <h2 class="heading">Business Products</h2>
                                 </div>
@@ -136,14 +143,7 @@
                                                             <div class="text">
                                                                 <h2 class="heading">{{product.product_name}}</h2>
                                                                 <p>{{product.about_product}}</p>
-                                                                {% if product.offer == True %}
-                                                                <small>Was</small>
-                                                                <div class="price"><sup>Ksh</sup><strike><span class="number">{{product.price}}</span></strike></div>
-                                                                <small>Now</small>
-                                                                <div class="price"><sup>Ksh</sup><span class="number">{{product.offer_price}}</span></div>
-                                                                {% else%}
                                                                 <div class="price"><sup>Ksh</sup><span class="number">{{product.price}}</span></div>
-                                                                {% endif%}
                                                             </div>
                                                             {% if product.author == user %}
                                                             <a href="{% url 'product-update' product.id %}" class="btn btn-primary px-4">Update</a>
@@ -179,14 +179,7 @@
                                                             <div class="text">
                                                                 <h2 class="heading">{{product.product_name}}</h2>
                                                                 <p>{{product.about_product}}</p>
-                                                                {% if product.offer == True %}
-                                                                <small>Was</small>
-                                                                <div class="price"><sup>Ksh</sup><strike><span class="number">{{product.price}}</span></strike></div>
-                                                                <small>Now</small>
-                                                                <div class="price"><sup>Ksh</sup><span class="number">{{product.offer_price}}</span></div>
-                                                                {% else%}
                                                                 <div class="price"><sup>Ksh</sup><span class="number">{{product.price}}</span></div>
-                                                                {% endif%}
                                                             </div>
                                                             {% if product.author == user %}
                                                             <a href="{% url 'product-update' product.id %}" class="btn btn-primary px-4">Update</a>
@@ -222,14 +215,7 @@
                                                             <div class="text">
                                                                 <h2 class="heading">{{product.product_name}}</h2>
                                                                 <p>{{product.about_product}}</p>
-                                                                {% if product.offer == True %}
-                                                                <small>Was</small>
-                                                                <div class="price"><sup>Ksh</sup><strike><span class="number">{{product.price}}</span></strike></div>
-                                                                <small>Now</small>
                                                                 <div class="price"><sup>Ksh</sup><span class="number">{{product.offer_price}}</span></div>
-                                                                {% else%}
-                                                                <div class="price"><sup>Ksh</sup><span class="number">{{product.price}}</span></div>
-                                                                {% endif%}
                                                             </div>
                                                             {% if product.author == user %}
                                                             <a href="{% url 'product-update' product.id %}" class="btn btn-primary px-4">Update</a>
@@ -257,14 +243,14 @@
                         <!-- END comment-list -->
 
                         <div class="comment-form-wrap pt-5" id="placeorder">
-                            <p>Place your order</p>
-                            <h3 class="mb-5">The first three options should not be left blank</h3>
-                            <small>The phone number should be active because {{usrname}} will use it to communicate with you</small>
-                            <small>If you only want one product just choose it from product_1 and leave the other fields blank</small>
-                            <small>When choosing  more than one product choose from 
-                                    product_1 to product_6 in that order
+                            <h2 class="heading">Place your order</h2>
+                            <small>1:The first three options should not be left blank<br></small>
+                            <small>2:The phone number should be active because {{usrname}} will use it to communicate with you<br></small>
+                            <small>3:If you only want one product just choose it from product_1 and leave the other fields blank<br></small>
+                            <small>4:When choosing  more than one product choose from 
+                                    product_1 to product_6 in that order<br>
                                     
-                            </small> {% if user.is_authenticated %}
+                            </small>
                             <form method="POST" class="p-5 bg-light">
                                 {% csrf_token %}
                                 <div class="form-group">
@@ -278,15 +264,16 @@
                                 </div>
 
                             </form>
-                            {% else %}
-                            <h4>You must be loged in to place an order</h4>
-                            <a href="{% url 'login' %}">Click here to login</a> {% endif%}
+
 
                         </div>
                     </div>
 
                 </div>
                 <!-- .col-md-8 -->
+                {% else%}
+                <p>This business does not offer products</p>
+                {% endif%} {% endfor%}
 
 
             </div>
@@ -301,48 +288,48 @@
                 <div class="col-md-6 col-lg-4">
                     <h3 class="heading-section">About Us</h3>
                     <p class="mb-5">Alpha is a technology company that helps your business reach more customers and help customers get products, foods and services in one place.#Good vibes</p>
-                    <p><a href="#" class="btn btn-primary px-4">Button</a></p>
+                    <p><a href="/" class="btn btn-primary px-4">Back Home</a></p>
                 </div>
                 <div class="col-md-6 col-lg-4">
                     <h3 class="heading-section">Blog</h3>
                     <div class="block-21 d-flex mb-4">
                         <figure class="mr-3">
-                            <img src="images/img_1.jpg" alt="" class="img-fluid">
+                            <img src="{% static 'images/blog_1.jpg' %}" alt="" class="img-fluid">
                         </figure>
                         <div class="text">
-                            <h3 class="heading"><a href="/">About us</a></h3>
+                            <h3 class="heading"><a href="{% url 'blog'%}">Check Blog</a></h3>
                             <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span> 2021</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Alpha</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+                                <div><a href="{% url 'blog'%}"><span class="icon-calendar"></span> 2021</a></div>
+                                <div><a href="{% url 'blog'%}"><span class="icon-person"></span> Alpha</a></div>
+                                <div><a href="{% url 'blog'%}"><span class="icon-chat"></span> 19</a></div>
                             </div>
                         </div>
                     </div>
 
                     <div class="block-21 d-flex mb-4">
                         <figure class="mr-3">
-                            <img src="images/img_2.jpg" alt="" class="img-fluid">
+                            <img src="{% static 'images/blog_2.jpg' %}" alt="" class="img-fluid">
                         </figure>
                         <div class="text">
-                            <h3 class="heading"><a href="#">Awesome events</a></h3>
+                            <h3 class="heading"><a href="{% url 'blog'%}">Awesome stuff</a></h3>
                             <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span>  2020</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Alpha</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+                                <div><a href="{% url 'blog'%}"><span class="icon-calendar"></span>  2021</a></div>
+                                <div><a href="{% url 'blog'%}"><span class="icon-person"></span> Alpha</a></div>
+                                <div><a href="{% url 'blog'%}"><span class="icon-chat"></span> 12</a></div>
                             </div>
                         </div>
                     </div>
 
                     <div class="block-21 d-flex mb-4">
                         <figure class="mr-3">
-                            <img src="images/img_3.jpg" alt="" class="img-fluid">
+                            <img src="{% static 'images/blog_3.jpg' %}" alt="" class="img-fluid">
                         </figure>
                         <div class="text">
-                            <h3 class="heading"><a href="#">Best business in town</a></h3>
+                            <h3 class="heading"><a href="{% url 'blog'%}">Best business in town</a></h3>
                             <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span> 2020</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Alpha</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+                                <div><a href="{% url 'blog'%}"><span class="icon-calendar"></span> 2020</a></div>
+                                <div><a href="{% url 'blog'%}"><span class="icon-person"></span> Alpha</a></div>
+                                <div><a href="{% url 'blog'%}"><span class="icon-chat"></span> 5</a></div>
                             </div>
                         </div>
                     </div>
@@ -352,8 +339,8 @@
                         <h3 class="heading-section">Contact Info</h3>
                         <ul>
                             <li><span class="icon icon-map-marker"></span><span class="text">Limuru, Kiambu Kenya</span></li>
-                            <li><a href="#"><span class="icon icon-phone"></span><span class="text">+254 70550 2262</span></a></li>
-                            <li><a href="#"><span class="icon icon-envelope"></span><span class="text">alphathefuture1@gmail.com</span></a></li>
+                            <li><a href="{% url 'contact'%}"><span class="icon icon-phone"></span><span class="text">+254 70550 2262</span></a></li>
+                            <li><a href="{% url 'contact'%}"><span class="icon icon-envelope"></span><span class="text">alphathefuture1@gmail.com</span></a></li>
                             <li><span class="icon icon-clock-o"></span><span class="text">Monday &mdash; Friday 8:00am - 5:00pm</span></li>
                         </ul>
                     </div>
@@ -368,7 +355,7 @@
                         Copyright &copy;
                         <script>
                             document.write(new Date().getFullYear());
-                        </script> All rights reserved | This web application is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank" class="text-primary"> Alpha with help from Colorlib</a>
+                        </script> All rights reserved | This web application is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank" class="text-primary"> Dennis Munyu (Alpha) </a>                        with help from Colorlib
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </p>
                 </div>

@@ -35,19 +35,14 @@
 </head>
 
 <body>
-    {% if messages %} {% for message in messages %}
-    <div class="alert alert-success alert-dismissible fade show"> <strong>Success!</strong> {{ message}} <button type="button" class="close" data-dismiss="alert">&times;</button></div>
-    {% endfor %} {% endif %}
     <header class="header-section">
         <div class="header-top">
             <div class="container">
                 <div class="row">
-
                     <div class="col-lg-2 text-center text-lg-left">
                         <!-- logo -->
                         <a href="/" class="site-logo">
                             <img src="{% static 'hm/img/logo.png' %}" alt="">
-
                         </a>
                     </div>
                     <div class="col-xl-4 col-lg-5">
@@ -73,7 +68,10 @@
                 <ul class="main-menu">
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'blog' %}">Blog</a></li>
-                    <li><a href="{% url 'contact' %}">contact</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% endif%}
                 </ul>
             </div>
         </nav>
@@ -82,34 +80,18 @@
     <section class="contact-section">
         <div class="container">
             <div class="row">
-                {% for activate in activated%} {%if activate != '' %} {% if activate.product == True %} {% for bs in setbs%}{% if bs.product == True %}
                 <div class="col-lg-6 contact-info">
-                    <h2>Add Your Business Products</h2>
-                    <form class="contact-form" method="POST" enctype="multipart/form-data">
+                    <h2>Confirm Delete</h2>
+                    <form class="contact-form" method="POST">
                         {% csrf_token %}
-                        <input type="hidden" name="next" value="{{ next }}"> {{ form|crispy }}
-                        <button class="site-btn" value="save_product" name="save_product">save</button>
-                        <button class="site-btn" value="add_product" name="add_product">save and add another</button>
+                        <h2>Are you sure you want to delete "{{ object.product_1.product_name }}" oder ? </h2>
+                        <div class="col-md-6 form-group">
+                            <button type="submit" class="btn btn-primary">Yes</button>
+                            <a class="btn btn-outline-secondary" href="{% url  'sb-product' object.code %}">Cancle</a>
+                        </div>
+
                     </form>
                 </div>
-                {% else %}
-                <div class="col-lg-6 contact-info">
-                    <h2>Your business does not deal with products</h2>
-                    <a href="{% url 'update-set-business' user.username %}" class="site-btn">Change Here</a>
-
-
-                </div>
-                {% endif %} {% endfor%}{% else %}
-                <div class="col-lg-6 contact-info">
-                    <h2>Your business is not activated to operate products</h2>
-                    <a href="{% url 'contact'  %}" class="site-btn">Contact us for activation</a>
-                    <p>Or call us on +254799786808 or +254798574482</p>
-
-
-                </div>
-                {% endif%} {% else %}
-                <h2>Waiting for activation.....</h2>
-                <a href="{% url 'contact'  %}" class="site-btn">Contact us for activation</a> {% endif %} {% endfor%}
             </div>
         </div>
     </section>
@@ -117,13 +99,13 @@
     <section class="footer-section">
         <div class="container">
             <div class="footer-logo text-center">
-                <a href="/"><img src="{% static 'hm/img/logo-light3.png' %}" alt=""></a>
+                <a href="/"><img src="{% static 'hm/img/logo-light.png' %}" alt=""></a>
             </div>
             <div class="row">
                 <div class="col-lg-3 col-sm-6" id="about">
                     <div class="footer-widget about-widget">
                         <h2>About us</h2>
-                        <p>Alpha is a technology company that helps your business reach more customers and help customers get products, foods and services in one place.#God bless</p>
+                        <p>Alpha is a technology company that helps your business reach more customers and help customers get products, foods and services in one place.#Good vibes</p>
                         <img src="{% static 'hm/img/cards.png' %}" alt="">
                     </div>
                 </div>
@@ -147,7 +129,7 @@
                                 <div class="lp-content">
                                     <h6>Who is Alpha co-founder</h6>
                                     <span>2020</span>
-                                    <a href="#" class="readmore">Read More</a>
+                                    <a href="{% url 'blog' %}" class="readmore">Read More</a>
                                 </div>
                             </div>
                             <div class="lp-item">
@@ -155,7 +137,7 @@
                                 <div class="lp-content">
                                     <h6>trends this year</h6>
                                     <span>2020</span>
-                                    <a href="#" class="readmore">Read More</a>
+                                    <a href="{% url 'blog' %}" class="readmore">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -197,7 +179,7 @@
                 <p class="text-white text-center mt-5">Copyright &copy;
                     <script>
                         document.write(new Date().getFullYear());
-                    </script> All rights reserved | This web applications is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank"> Dennis Munyu (Alpha) </a>with help from Colorlib</p>
+                    </script> All rights reserved | This web applications is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank">Dennis Munyu (Alpha) </a>with help from Colorlib</p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
             </div>

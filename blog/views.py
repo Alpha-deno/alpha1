@@ -2,7 +2,7 @@ from django.shortcuts import render,get_object_or_404,redirect
 from .models import (
     Blog,
     BlogComment,
-    AllBlogComment
+    
 
 )
 from django.views.generic import ( 
@@ -21,12 +21,13 @@ from django.contrib import messages
 
 
 
-def blog(request):
-    blogs = Blog.objects.all().order_by('-date_posted')
-    context= {
-        'blogs':blogs
-    }
-    return render(request, 'blog/blog.html', context)
+
+class BlogListView(ListView):
+    model = Blog
+    template_name = 'blog/blog.html'
+    context_object_name = 'blogs'
+    ordering = ['-date_posted']
+    paginate_by = 12
 
 class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
@@ -51,12 +52,14 @@ class BlogUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class BlogDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Blog 
     template_name='blog/blog_confirm_delete.html'
-    success_url = 'blog'
+    
     def test_func(self):
         post = self.get_object()
         if self.request.user == post.author:
             return True
         return False
+    def get_success_url(self):
+        return reverse_lazy('blog')
 
 def blog_single(request, id=None):
     blog = get_object_or_404(Blog, id=id)

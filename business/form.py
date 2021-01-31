@@ -12,11 +12,11 @@ class BusinessSignUpForm(UserCreationForm):
     
     email= forms.EmailField()
     business_phone_number=forms.IntegerField()
-    Terms_and_Conditions = forms.BooleanField()
+    Accept_Terms_and_Conditions = forms.BooleanField()
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'business_phone_number' ,'password1', 'password2', 'Terms_and_Conditions']
+        fields = ['username', 'email', 'business_phone_number' ,'password1', 'password2', 'Accept_Terms_and_Conditions']
 
     def save(self):
         user = super().save(commit=False)
@@ -27,10 +27,10 @@ class BusinessSignUpForm(UserCreationForm):
         
 class UserSignUpForm(UserCreationForm):
     email = forms.EmailField()
-    Terms_and_Conditions = forms.BooleanField()
+    Accept_Terms_and_Conditions = forms.BooleanField()
     class Meta:
         model = User
-        fields = ['username', 'email' , 'password1', 'password2', 'Terms_and_Conditions']
+        fields = ['username', 'email' , 'password1', 'password2', 'Accept_Terms_and_Conditions']
 
     def save(self, commit=True):
         user = super().save(commit=False)

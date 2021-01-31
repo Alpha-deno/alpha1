@@ -8,8 +8,8 @@
     <meta name="keywords" content="the future">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Favicon .heic-->
-    <link href="{% static 'hm/img/favicon1.heic' %}" rel="shortcut icon" />
 
+    <link href="{% static 'hm/img/favicon2.png' %}" rel="shortcut icon" />
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
 
@@ -48,7 +48,8 @@
                 <ul class="main-menu">
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'blog' %}">Blog</a></li>
-                    <li><a href="{% url 'contact' %}">contact</a></li>
+                    <li><a href="{% url 'contact' %}">Contact us</a></li>
+                    <li><a href="{% url 'signup' %}">Signup</a></li>
                 </ul>
             </div>
         </nav>
@@ -61,14 +62,27 @@
                     <h2>Terms and Conditions</h2>
                     <ul>
                         <li><small>Alpha will not sell user data to a third party </small></li>
-                        <li><small>Alpha will only use you info to contact you </small></li>
+                        <li><small>Alpha will only use your info to contact you </small></li>
                         <li><small>Alpha will protect your user data</small></li>
                         <li><small>No use of Abusive language around the site</small></li>
-                        <li><small>You have agreed to respect user of the site </small></li>
-                        <li><small>Using abusive terms actions may be taken </small></li>
+                        <li><small>You have agreed to respect each user of the site </small></li>
+                        <li><small>Using abusive terms actions may be taken Against you</small></li>
+                        <li><small>You have accepted future changes to this terms and conditions </small></li>
                     </ul>
-
-
+                    <h4>Business Users Terms</h4>
+                    <ul>
+                        <li><small>You have accepted to keep user phone number for business use only and if you violate this policy actions may be taken  Against you</small></li>
+                        <li><small>You will respect every comment and you will be respectful </small></li>
+                        <li><small>You will respond to every order recieved </small></li>
+                        <li><small>You have accepted future changes to this terms and conditions </small></li>
+                        <li><small>No selling of Alcohol, Drugs and ILLEGAL products </small></li>
+                    </ul>
+                    <h4>Users Terms</h4>
+                    <ul>
+                        <li><small>You will respectfull at all time and violation of this policy actions maybe taken </small></li>
+                        <li><small>You will consider everyone feelings before posting everything </small></li>
+                        <li><small>You have accepted future changes to this terms and conditions </small></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -83,7 +97,7 @@
                 <div class="col-lg-3 col-sm-6" id="about">
                     <div class="footer-widget about-widget">
                         <h2>About us</h2>
-                        <p>Alpha is a technology company that helps your business reach more customers and help customers get products, foods and services in one place.#Good vibes</p>
+                        <p>Alpha is a technology company that helps your business reach more customers and help customers get products, foods and services in one place.#God Bless</p>
                         <img src="{% static 'hm/img/cards.png' %}" alt="">
                     </div>
                 </div>
@@ -93,7 +107,7 @@
                         <ul>
 
                             <li><a href="/">Home</a></li>
-                            <li><a href="#">Blog</a></li>
+                            <li><a href="{% url 'blog'%}">Blog</a></li>
                         </ul>
 
                     </div>
@@ -147,17 +161,17 @@
         <div class="social-links-warp">
             <div class="container">
                 <div class="social-links">
-                    <a href="" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
-                    <a href="" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
-                    <a href="" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
-                    <a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>
+                    <a href="https://www.instagram.com/munyudennis_/" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
+                    <a href="https://www.facebook.com/deno.delphina" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
+                    <a href="https://www.twitter.com/DennisMunyu" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
+                    <!--<a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>-->
                 </div>
 
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 <p class="text-white text-center mt-5">Copyright &copy;
                     <script>
                         document.write(new Date().getFullYear());
-                    </script> All rights reserved | This web applications is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank">Alpha </a>with help from Colorlib</p>
+                    </script> All rights reserved | This web applications is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://www.facebook.com/deno.delphina" target="_blank">Dennis Munyu (Alpha) </a>with help from Colorlib</p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 
             </div>

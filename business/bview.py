@@ -19,7 +19,10 @@ from home.models import (
     OrderProduct,
     OrderFood,
     BookService,
-    BusinessActivator
+    BusinessActivator,
+    NonUserBookService,
+    NonUserOrderFood,
+    NonUserOrderProduct
 )
 from django.urls import reverse_lazy,reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -103,7 +106,7 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 @method_decorator([login_required, business_required], name='dispatch')
 class ServiceCreateView(LoginRequiredMixin, CreateView):
     model = Service
-    fields = ['service_image', 'service_name', 'price', 'about_service', 'offer', 'offer_price']
+    fields = ['service_image', 'service_name', 'price', 'about_service','new', 'offer', 'offer_price']
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
@@ -127,8 +130,8 @@ class ServiceCreateView(LoginRequiredMixin, CreateView):
 
 @method_decorator([login_required, business_required], name='dispatch')
 class ServiceUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Product
-    fields = ['service_image', 'service_name', 'price', 'about_service', 'offer', 'offer_price']
+    model = Service
+    fields = ['service_image', 'service_name', 'price', 'about_service','new', 'offer', 'offer_price']
     def get_context_data(self, *args, **kwargs):
         context = super(ServiceUpdateView, self).get_context_data( *args, **kwargs)
         usr = self.request.user
@@ -259,7 +262,8 @@ def product_listview(request, username=None):
         'usrname': username,
         'comment' : len(BusinessComment.objects.filter(code=username)),
         'orders' : OrderProduct.objects.filter(code=username).order_by('-date_posted'),
-        'order': len(OrderProduct.objects.filter(code=username)),
+        'ordrs':NonUserOrderProduct.objects.filter(code=username).order_by('-date_posted'),
+        'order': len(OrderProduct.objects.filter(code=username)) + len(NonUserOrderProduct.objects.filter(code=username)),
         'bsuser':Businessuser.objects.filter(code=username),
         'usr':user,
         'activator':BusinessActivator.objects.filter(bussiness=user)
@@ -289,7 +293,8 @@ def service_listview(request, username=None):
         'usrname': username,
         'comment' : len(BusinessComment.objects.filter(code=username)),
         'orders' : BookService.objects.filter(code=username).order_by('-date_posted'),
-        'order' : len(BookService.objects.filter(code=username)),
+        'ordrs': NonUserBookService.objects.filter(code=username).order_by('-date_posted'),
+        'order' : len(BookService.objects.filter(code=username))+len(NonUserBookService.objects.filter(code=username)),
         'bsuser':Businessuser.objects.filter(code=username),
         'usr':user,
         'activator':BusinessActivator.objects.filter(bussiness=user)
@@ -318,7 +323,8 @@ def restaurant_listview(request, username=None):
         'usrname': username,
         'comment' : len(BusinessComment.objects.filter(code=username)),
         'orders': OrderFood.objects.filter(code=username).order_by('-date_posted'),
-        'order': len(OrderFood.objects.filter(code=username)),
+        'ordrs':NonUserOrderFood.objects.filter(code=username).order_by('-date_posted'),
+        'order': len(OrderFood.objects.filter(code=username)) + len(NonUserOrderFood.objects.filter(code=username)),
         'bsuser':Businessuser.objects.filter(code=username),
         'usr':user,
         'activator':BusinessActivator.objects.filter(bussiness=user)

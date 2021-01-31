@@ -136,7 +136,44 @@ class BookService(models.Model):
     service_3 = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, related_name='service_3', blank=True)
     service_4 = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, related_name='service_4', blank=True)
  
+class NonUserOrderProduct(models.Model):
+    date_posted = models.DateTimeField(default=timezone.now)
+    code = models.CharField(max_length=150)
+    My_Name = models.CharField(max_length=100)
+    location = models.CharField(max_length=150)
+    Phone_Number = models.CharField(max_length=10)
+    product_1 = models.ForeignKey(Product, on_delete=models.CASCADE, blank=True, null=True)
+    product_2 = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='nuproduct_2', blank=True)
+    product_3 = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='nuproduct_3', blank=True)
+    product_4 = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='nuproduct_4', blank=True)
+    product_5 = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='nuproduct_5', blank=True)    
+    product_6 = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='nuproduct_6', blank=True) 
 
+class NonUserOrderFood(models.Model):
+    date_posted = models.DateTimeField(default=timezone.now)
+    code = models.CharField(max_length=150)
+    My_Name = models.CharField(max_length=100)
+    table_number = models.IntegerField(default=0)
+    location = models.CharField(max_length=150)
+    Phone_Number = models.CharField(max_length=10)
+    meal_1 = models.ForeignKey(Restaurant, on_delete=models.CASCADE, blank=True, null=True)
+    meal_2 = models.ForeignKey(Restaurant, on_delete=models.SET_NULL, null=True, related_name='numeal_2', blank=True)
+    meal_3 = models.ForeignKey(Restaurant, on_delete=models.SET_NULL, null=True, related_name='numeal_3', blank=True)
+    meal_4 = models.ForeignKey(Restaurant, on_delete=models.SET_NULL, null=True, related_name='numeal_4', blank=True)
+    meal_5 = models.ForeignKey(Restaurant, on_delete=models.SET_NULL, null=True, related_name='numeal_5', blank=True)    
+    meal_6 = models.ForeignKey(Restaurant, on_delete=models.SET_NULL, null=True, related_name='numeal_6', blank=True) 
+
+class NonUserBookService(models.Model):
+    date_posted = models.DateTimeField(default=timezone.now)
+    code = models.CharField(max_length=150)
+    My_Name = models.CharField(max_length=100)
+    checkin_date = models.DateTimeField(default=timezone.now)
+    Phone_Number = models.CharField(max_length=10)
+    service_1 = models.ForeignKey(Service, on_delete=models.CASCADE, blank=True, null=True)
+    service_2 = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, related_name='nuservice_2', blank=True)
+    service_3 = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, related_name='nuservice_3', blank=True)
+    service_4 = models.ForeignKey(Service, on_delete=models.SET_NULL, null=True, related_name='nuservice_4', blank=True)
+ 
 
 
 
